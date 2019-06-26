@@ -1,0 +1,17 @@
+// 想根据 系统自定义主题变化 请使用此变量 不可修改
+$default-theme: #409EFF;
+$theme-red: #ff0036;
+$theme-green: #00c37a;
+$theme-yellow: #ff9402;
+$theme-blue: #0097fd;
+$ce8: #e8e8e8;
+$border-color: $ce8;
+
+$navbar-height: 64px;
+$sidebar-width: 256px;
+
+:export {
+  defaultTheme: $default-theme;
+  navbarHeight: $navbar-height;
+  sidebarWidth: $sidebar-width;
+}
