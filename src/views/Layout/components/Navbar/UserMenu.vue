@@ -3,7 +3,7 @@
     <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="hover">
       <div class="avatar-wrapper">
         <img src="" class="user-avatar">
-        {{'Meng'}}
+        {{userName}}
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown">
@@ -22,9 +22,13 @@
 
 <script>
 import {
+  mapGetters,
   mapActions
 } from 'vuex'
 export default {
+  computed:{
+    ...mapGetters(['userName'])
+  },
   methods: {
     ...mapActions({
       userLogout: 'user/userLogout'

@@ -1,5 +1,4 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-console.log(CopyWebpackPlugin)
 const path = require('path');
 const {
   serverUrl,
@@ -7,7 +6,7 @@ const {
 } = require('./mock/config');
 // vue.config.js
 module.exports = {
-
+  publicPath: './',
   devServer: {
     // development server port 8080
     // port: 8080

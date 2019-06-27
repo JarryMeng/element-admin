@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+import { resetRouter } from '@/router'
 import {
   SET_ACCESS_TOKEN,
   SET_USERNAME,
@@ -41,7 +42,8 @@ const actions = {
   async userLogin({
     commit
   }, userInfo) {
-    let userMsg = await userLogin(userInfo).then(res=>res.data)
+    let userMsg = await userLogin(userInfo)
+    console.log(userMsg)
     commit(SET_ACCESS_TOKEN, userMsg.token)
     commit(SET_USERNAME, userMsg.username)
     commit(SET_USERID, userMsg.userid)
@@ -49,11 +51,13 @@ const actions = {
     return userMsg
   },
   async userLogout({
-    commit
+    commit,
+    dispatch
   }) {
+    dispatch('permission/removeMenuList', null, { root: true })
     commit(SET_ACCESS_TOKEN, '')
     removeToken()
-    return true
+    resetRouter()
   }
 }
 

@@ -31,6 +31,7 @@ export default {
 <style>
 .scroll-inner-vertical-view {
   overflow-x: hidden !important;
+  margin-bottom: 0 !important;
 }
 
 .scroll-inner-horizontal-view {

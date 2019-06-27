@@ -6,7 +6,7 @@
     :mode="mode"
     :menu-trigger="trigger"
     :collapse="collapse">
-    <MenuItem ref="navbarMenuItem" v-for="(route,index) in authRouteList" :key="index" :item="route" />
+    <MenuItem ref="navbarMenuItem" v-for="(route,index) in authRoutes" :key="index" :item="route" />
   </el-menu>
 </template>
 <script>
@@ -34,157 +34,14 @@ export default {
   },
   data() {
     return {
-      authRouteList: [{
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        },
-        {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        }, {
-          path: '/',
-          meta: {
-            title: '首页',
-            name: 'home'
-          },
-          children: []
-        },
-        {
-          path: '/about',
-          meta: {
-            title: '关于',
-            name: 'about'
-          },
-          children: [{
-              path: '/about1',
-              meta: {
-                title: '关于',
-                name: 'about'
-              },
-            },
-            {
-              path: '/about2',
-              meta: {
-                title: '关于',
-                name: 'about'
-              },
-            }
-          ]
-        }
-      ]
+      authRouteList: []
     }
   },
   components: {
     MenuItem
   },
   computed: {
-    ...mapGetters(['sidebar', 'theme', 'authRoutes']),
+    ...mapGetters(['sidebar', 'theme', 'contentWidth', 'authRoutes']), //'authRoutes'
     collapse() {
       // 横向菜单时  子项 不缩小
       if (this.mode === 'horizontal') {
@@ -193,31 +50,40 @@ export default {
       return !this.sidebar
     }
   },
+  watch: {
+    // contentWidth(val) {
+    //   // 鉴于DOM渲染异步 先这样凑合吧
+    //   setTimeout(this.horizontalResizeMenu, 500)
+    // }
+  },
   mounted() {
-    // 生成原始菜单带宽度
-    routeList = this.$refs.navbarMenuItem.map((item, i) => {
-      let routeItem = Object.assign({}, this.authRouteList[i])
-      console.log(routeItem)
-      routeItem.initialWidth = item.$el.offsetWidth
-      return routeItem
-    })
-    // console.log(routeList)
-    this.horizontalResizeMenu()
-    window.addEventListener('resize', throttle(this.horizontalResizeMenu.bind(this)))
-
+    // this.authRouteList = this.authRoutes
+    // this.$nextTick(this.horizontalMenuItemWidth)
+  },
+  beforeDestroy() {
+    // if (this._menuResize) {
+    //   window.removeEventListener('resize', this._menuResize)
+    //   this._menuResize = null
+    // }
   },
   methods: {
-    // menuItemReady(menuItem) {
-    //   stepWidth += menuItem.$el.offsetWidth
-    //   stepRouteList.push({
-    //     ...menuItem.item,
-    //     width: menuItem.$el.offsetWidth,
-    //     stepWidth: stepWidth
-    //   })
-    // },
+    horizontalMenuItemWidth() {
+      if (this.mode === 'horizontal') {
+        // 生成原始菜单带宽度
+        routeList = this.$refs.navbarMenuItem.map((item, i) => {
+          let routeItem = Object.assign({}, this.authRouteList[i])
+          routeItem.width = item.$el.offsetWidth
+          return routeItem
+        })
+        this.horizontalResizeMenu()
+        this._menuResize = throttle(this.horizontalResizeMenu.bind(this))
+        window.addEventListener('resize', this._menuResize)
+
+      }
+    },
     // topbar 根据宽度 修改menu结构
     horizontalResizeMenu() {
-      let menuEl = this.$refs.navbarMenu.$el
+      let menuEl = this.$el
       let menuAllWidth = 0
       // 展示在菜单上的
       let showMenuList = []
@@ -225,24 +91,24 @@ export default {
       let otherMenuList = []
       for (let i = 0; i < routeList.length; i++) {
 
-        menuAllWidth += routeList[i].initialWidth
+        menuAllWidth += routeList[i].width
         // 超出
         if (menuEl.offsetWidth - OTHER_MENU < menuAllWidth) {
-          // console.log(i)
           showMenuList = routeList.slice(0, i)
           otherMenuList = routeList.slice(i, routeList.length)
           break;
         }
       }
-      showMenuList.push({
+      if (menuAllWidth < menuEl.offsetWidth) {
+        showMenuList = routeList
+      }
+      otherMenuList.length && showMenuList.push({
         path: '',
-        meta:{
-          title:'...',
-          name:'...'
+        meta: {
+          title: '...'
         },
         children: otherMenuList
       })
-      // console.log(showMenuList)
       this.authRouteList = showMenuList
     }
   }
@@ -255,18 +121,18 @@ export default {
 
     border-right: 0;
     transition: background 0.18s linear;
-    &.dark {
-        background: #001529;
-    }
-    &.light {
-        background: #fff;
-    }
+    background: transparent;
+    // &.dark {
+    //     background: transparent;
+    // }
+    // &.light {
+    //     background: #fff;
+    // }
     &.menu-mode-horizontal {
         height: $navbar-height;
         border-bottom: 0 !important;
         word-break: normal;
         white-space: nowrap;
-        overflow: hidden;
     }
     &.menu-mode-vertical {
         padding: 16px 0;

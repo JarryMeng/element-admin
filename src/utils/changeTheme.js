@@ -1,3 +1,4 @@
+// 借鉴于vue-element-admin
 import {
   Message
 } from 'element-ui'
@@ -8,18 +9,22 @@ import {
 const ORIGINAL_THEME = '#409EFF' // default color
 export default class ThemeColor {
   static chalk = ''
-  static async changeTheme(newtheme) {
+  static async changeTheme(newtheme,noLoading=true) {
     const themeColor = stroe.getters.themeColor
     // 生成过样式  读取 store
     const oldVal = this.chalk ? themeColor : ORIGINAL_THEME
     if (typeof newtheme !== 'string') return
-    const $message = Message({
-      message: '正在编译主题...',
-      customClass: 'theme-message',
-      type: 'success',
-      duration: 0,
-      iconClass: 'el-icon-loading'
-    })
+    let $message
+    if(noLoading){
+      $message = Message({
+        message: '正在编译主题...',
+        customClass: 'theme-message',
+        type: 'success',
+        duration: 0,
+        iconClass: 'el-icon-loading'
+      })
+    }
+
     const newestCluster = this.getThemeCluster(newtheme.replace('#', ''))
     const originalCluster = this.getThemeCluster(oldVal.replace('#', ''))
     // 根据最新的样式文本生成style标签 放到head
@@ -44,7 +49,7 @@ export default class ThemeColor {
       if (process.env.NODE_ENV !== 'production') {
         url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
       } else {
-        url = '/defaultTheme/index.css'
+        url = './defaultTheme/index.css'
       }
       await this.getCSSString(url, 'chalk')
     }
@@ -64,9 +69,11 @@ export default class ThemeColor {
       if (typeof innerText !== 'string') return
       style.innerText = this.updateStyle(innerText, originalCluster, newestCluster)
     })
-    // setTimeout(()=>{
-    $message.close()
-    // },500)
+    setTimeout(()=>{
+      if($message){
+        $message.close()
+      }
+    },500)
 
   }
   // 样式文本 正则匹配替换 更新颜色

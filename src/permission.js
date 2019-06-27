@@ -36,11 +36,12 @@ router.beforeEach(async (to, from, next) => {
       next()
       // 简单的判断逻辑  用户权限菜单是生成好
       // 用户菜单
+
       if (!store.getters.authRoutes.length) {
         const routes = await store.dispatch('permission/getMenuList').catch(err => {
           console.log(err)
         })
-        console.log(routes)
+
         // 添加权限路由
         router.addRoutes(routes)
         next({

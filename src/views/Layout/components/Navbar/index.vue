@@ -105,8 +105,8 @@ export default {
         .user-menu {
             float: right;
         }
-        .content-right{
-          @include flex-box(row,flex-start,center);
+        .content-right {
+            @include flex-box(row,flex-start,center);
         }
     }
     .navbar-header {
@@ -114,7 +114,7 @@ export default {
         height: $navbar-height;
         width: 100%;
         transition: background 0.5s;
-
+        padding: 0 20px;
         &.light {
             background: #fff;
             box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
@@ -122,6 +122,9 @@ export default {
         &.dark {
             background: #001529;
             box-shadow: 0 2px 6px rgba(0, 21, 41, 0.35);
+            .full-screen {
+                color: #fff;
+            }
         }
         .header-inner {
             @include flex-box(row,flex-start,center);
@@ -130,6 +133,19 @@ export default {
         .app-sidebar-menu {
             flex: 1;
             // border-bottom:0;
+        }
+    }
+}
+</style>
+<style lang="scss">
+.app-navbar {
+    .navbar-header {
+        &.dark {
+            .user-menu {
+                .avatar-wrapper {
+                    color: #fff;
+                }
+            }
         }
     }
 }

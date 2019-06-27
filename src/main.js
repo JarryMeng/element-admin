@@ -20,6 +20,6 @@ new Vue({
   render: h => h(App),
   beforeCreate(){
     const color = store.getters.themeColor
-    ThemeColor.changeTheme(color)
+    ThemeColor.changeTheme(color,false)
   }
 }).$mount('#app')

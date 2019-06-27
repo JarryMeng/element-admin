@@ -15,9 +15,9 @@ export const constantRoutes = [{
 export const authRoutes = [{
   path: '/',
   component: Layout,
-  // redirect: '/home',
   meta: {
-    title: '首页'
+    title: '首页',
+    icon: 'el-icon-menu'
   },
   children: [{
     path: '/home',
@@ -25,16 +25,15 @@ export const authRoutes = [{
     name: 'Home',
     meta: {
       title: '首页',
-      icon: 'home',
-      affix: true
+      icon: 'el-icon-location'
     }
   }]
 }, {
   path: '/list',
   component: Layout,
-  // redirect: '/home',
   meta: {
-    title: '列表页'
+    title: '列表页',
+    icon: 'el-icon-menu'
   },
   children: [{
     path: '/list/list1',
@@ -42,8 +41,7 @@ export const authRoutes = [{
     name: 'List1',
     meta: {
       title: '列表1',
-      icon: 'list1',
-      affix: true
+      icon: 'el-icon-location'
     }
   }, {
     path: '/list/list2',
@@ -51,17 +49,15 @@ export const authRoutes = [{
     name: 'List2',
     meta: {
       title: '列表2',
-      icon: 'list2',
-      affix: true
+      icon: 'el-icon-location'
     }
   }, {
     path: '/list/list3',
     component: () => import('@/views/Home'),
-    name: 'List2',
+    name: 'List3',
     meta: {
       title: '列表3',
-      icon: 'list3',
-      affix: true
+      icon: 'el-icon-location'
     }
   }]
 }]

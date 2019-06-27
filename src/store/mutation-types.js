@@ -16,7 +16,7 @@ export const SET_CONTENT_WIDTH = 'APP/SET_CONTENT_WIDTH'
 
 // 设置系统路由信息
 export const SET_ROUTES = 'PERMISSION/SET_ROUTES'
-
+export const REMOVE_ROUTES = 'PERMISSION/REMOVE_ROUTES'
 // 设置Token
 export const SET_ACCESS_TOKEN = 'USER/Access_Token'
 // 设置用户名

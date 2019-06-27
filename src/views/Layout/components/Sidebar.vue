@@ -29,7 +29,18 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.app-sidebar {
+  .sidebar-menu-wrap{
+    overflow: visible !important;
+    height: auto !important;
+    .scroll-inner-vertical-view{
+      overflow: visible !important;
+    }
+  }
+}
 
+</style>
 <style lang="scss" scoped>
 @import '@/styles/mixins.scss';
 .app-sidebar {
@@ -40,6 +51,10 @@ export default {
     display: flex;
     flex-direction: column;
     transition: all 0.18s linear;
+    overflow: visible !important;
+    .app-logo{
+      padding-left: 20px;
+    }
     &.light {
         background-color: #fff;
         box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
