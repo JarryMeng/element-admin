@@ -49,10 +49,6 @@ router.beforeEach(async (to, from, next) => {
           replace: true
         })
       }
-      //     await store.dispatch('user/resetToken')
-      //     Message.error(error || 'Has Error')
-      //     next(`/login?redirect=${to.path}`)
-      //     NProgress.done()
     }
   } else {
     // 无token

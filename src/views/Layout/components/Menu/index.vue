@@ -66,52 +66,52 @@ export default {
     //   this._menuResize = null
     // }
   },
-  methods: {
-    horizontalMenuItemWidth() {
-      if (this.mode === 'horizontal') {
-        // 生成原始菜单带宽度
-        routeList = this.$refs.navbarMenuItem.map((item, i) => {
-          let routeItem = Object.assign({}, this.authRouteList[i])
-          routeItem.width = item.$el.offsetWidth
-          return routeItem
-        })
-        this.horizontalResizeMenu()
-        this._menuResize = throttle(this.horizontalResizeMenu.bind(this))
-        window.addEventListener('resize', this._menuResize)
-
-      }
-    },
-    // topbar 根据宽度 修改menu结构
-    horizontalResizeMenu() {
-      let menuEl = this.$el
-      let menuAllWidth = 0
-      // 展示在菜单上的
-      let showMenuList = []
-      // 超出放在其他里的
-      let otherMenuList = []
-      for (let i = 0; i < routeList.length; i++) {
-
-        menuAllWidth += routeList[i].width
-        // 超出
-        if (menuEl.offsetWidth - OTHER_MENU < menuAllWidth) {
-          showMenuList = routeList.slice(0, i)
-          otherMenuList = routeList.slice(i, routeList.length)
-          break;
-        }
-      }
-      if (menuAllWidth < menuEl.offsetWidth) {
-        showMenuList = routeList
-      }
-      otherMenuList.length && showMenuList.push({
-        path: '',
-        meta: {
-          title: '...'
-        },
-        children: otherMenuList
-      })
-      this.authRouteList = showMenuList
-    }
-  }
+  // methods: {
+  //   horizontalMenuItemWidth() {
+  //     if (this.mode === 'horizontal') {
+  //       // 生成原始菜单带宽度
+  //       routeList = this.$refs.navbarMenuItem.map((item, i) => {
+  //         let routeItem = Object.assign({}, this.authRouteList[i])
+  //         routeItem.width = item.$el.offsetWidth
+  //         return routeItem
+  //       })
+  //       this.horizontalResizeMenu()
+  //       this._menuResize = throttle(this.horizontalResizeMenu.bind(this))
+  //       window.addEventListener('resize', this._menuResize)
+  //
+  //     }
+  //   },
+  //   // topbar 根据宽度 修改menu结构
+  //   horizontalResizeMenu() {
+  //     let menuEl = this.$el
+  //     let menuAllWidth = 0
+  //     // 展示在菜单上的
+  //     let showMenuList = []
+  //     // 超出放在其他里的
+  //     let otherMenuList = []
+  //     for (let i = 0; i < routeList.length; i++) {
+  //
+  //       menuAllWidth += routeList[i].width
+  //       // 超出
+  //       if (menuEl.offsetWidth - OTHER_MENU < menuAllWidth) {
+  //         showMenuList = routeList.slice(0, i)
+  //         otherMenuList = routeList.slice(i, routeList.length)
+  //         break;
+  //       }
+  //     }
+  //     if (menuAllWidth < menuEl.offsetWidth) {
+  //       showMenuList = routeList
+  //     }
+  //     otherMenuList.length && showMenuList.push({
+  //       path: '',
+  //       meta: {
+  //         title: '...'
+  //       },
+  //       children: otherMenuList
+  //     })
+  //     this.authRouteList = showMenuList
+  //   }
+  // }
 }
 </script>
 
