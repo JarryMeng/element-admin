@@ -4,6 +4,7 @@ import getters from './getters'
 import app from './modules/app'
 import user from './modules/user'
 import permission from './modules/permission'
+import tagViews from './modules/tagViews'
 Vue.use(Vuex)
 
 export default new Store({
@@ -11,7 +12,8 @@ export default new Store({
   modules: {
     app,
     user,
-    permission
+    permission,
+    tagViews
   },
   getters
 })

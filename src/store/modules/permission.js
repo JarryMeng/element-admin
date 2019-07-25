@@ -1,6 +1,7 @@
 import {
   authRoutes,
-  constantRoutes
+  constantRoutes,
+  othenRoutes
 } from '../../router/routes'
 import router from '@/router'
 import {
@@ -11,16 +12,8 @@ import {
   menuList
 } from '@/api/user'
 // 深拷贝  解决 vuex mutations 修改state问题
-const deepCopy = function(source) {
-  if (!source) {
-    return source
-  }
-  let sourceCopy = source instanceof Array ? [] : {}
-  for (let item in source) {
-    sourceCopy[item] = typeof source[item] === 'object' ? deepCopy(source[item]) : source[item]
-  }
-  return sourceCopy
-}
+import { deepCopy } from '@/utils'
+
 // 后台用户路由和定义好的权限路由 匹配
 const recursionRouter = (userRoutes = [], authRoutes = []) => {
   let realRoutes = []
@@ -41,17 +34,15 @@ const recursionRouter = (userRoutes = [], authRoutes = []) => {
 }
 
 const state = {
-  routes: [],
-  authRoutes: []
+  routes: [], // 除constantRoutes之外的 路由信息 用户 authRoutes + othenRoutes 用于addRoutes
+  authRoutes: [] // 用户权限菜单路由
 }
 const mutations = {
   [SET_ROUTES](state, authRoutes) {
-    state.authRoutes = authRoutes
-
-    const allRouters = deepCopy(constantRoutes.concat(authRoutes))
-    state.routes = allRouters
+    state.authRoutes = deepCopy(authRoutes)
+    state.routes = deepCopy([...authRoutes, ...othenRoutes])
   },
-  [REMOVE_ROUTES](state, authRoutes) {
+  [REMOVE_ROUTES](state) {
     state.authRoutes = []
     state.routes = []
   }
@@ -61,19 +52,25 @@ const actions = {
     commit,
     rootState
   }) {
+    // 请求用户菜单
     const authMenuList = await menuList(rootState.user.userId).then(res => res.menu)
+    // 匹配用户权限菜单
     const authRoutesList = recursionRouter(authMenuList, authRoutes)
-    const authMenu = authRoutesList.map((item, index) => {
+    // 将第一个路由设置成首页 默认进入页
+    const authMenuRoutes = authRoutesList.map((item, index) => {
       if (index === 0) {
         item.path = '/'
         item.redirect = item.children.length ? item.children[0].path : '/'
       }
       return item
     })
-    commit(SET_ROUTES, deepCopy(authMenu))
-    return authMenu
+    // 添加权限路由
+    router.addRoutes([...authMenuRoutes, ...othenRoutes])
+    commit(SET_ROUTES, authMenuRoutes)
   },
-  removeMenuList({commit}){
+  removeMenuList({
+    commit
+  }) {
     commit(REMOVE_ROUTES)
   }
 }

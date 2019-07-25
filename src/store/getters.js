@@ -12,5 +12,6 @@ const getters = {
   fixedSiderbar: state => state.app.fixedSiderbar,
   routes: state => state.permission.routes,
   authRoutes: state => state.permission.authRoutes,
+  viewsList:  state => state.tagViews.viewsList,
 }
 export default getters

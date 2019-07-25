@@ -51,6 +51,9 @@ export default {
     }
   },
   watch: {
+    authRoutes(){
+      console.log('aaaaaaaaaaaaaaaaaaaaaa')
+    }
     // contentWidth(val) {
     //   // 鉴于DOM渲染异步 先这样凑合吧
     //   setTimeout(this.horizontalResizeMenu, 500)

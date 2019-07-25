@@ -23,6 +23,27 @@ const authMenuList = [{
   auth: ['1'],
   children: []
 }, {
+  name: 'Mapbox',
+  icon: 'home',
+  path: 'mapbox',
+  lv: '1',
+  auth: ['1'],
+  children: [{
+      name: 'Mapbox',
+      icon: '',
+      lv:'2',
+      auth: ['1','2'],
+      path: 'mapbox',
+      children: []
+    },{
+        name: 'MineData',
+        icon: '',
+        lv:'2',
+        auth: ['1','2'],
+        path: 'mineData',
+        children: []
+      },]
+},{
   name: '列表页',
   icon: 'list',
   lv: '1',

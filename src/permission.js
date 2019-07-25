@@ -12,6 +12,12 @@ import {
   setDocumentTitle,
   getPageTitle
 } from '@/utils/documentTitle'
+import {
+  authRoutes
+} from '@/router/routes'
+import {
+  deepCopy
+} from '@/utils'
 // NProgress Configuration
 NProgress.configure({
   showSpinner: false
@@ -19,6 +25,15 @@ NProgress.configure({
 // 未登录  页面白名单
 const whiteList = ['/login']
 
+function hasRoutePath(routes, path) {
+  return routes.some(item => {
+    if (item.path === path) {
+      return true
+    } else {
+      return item.children && hasRoutePath(item.children, path)
+    }
+  })
+}
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
   // 设置系统标题  pageTitle-documentTitle
@@ -33,21 +48,64 @@ router.beforeEach(async (to, from, next) => {
       })
       NProgress.done()
     } else {
-      next()
+
       // 简单的判断逻辑  用户权限菜单是生成好
       // 用户菜单
+      // debugger;
 
+      // 用户路由已经获取
       if (!store.getters.authRoutes.length) {
-        const routes = await store.dispatch('permission/getMenuList').catch(err => {
-          console.log(err)
-        })
 
-        // 添加权限路由
-        router.addRoutes(routes)
-        next({
-          ...to,
-          replace: true
-        })
+        // 获取用户权限菜单
+        await store.dispatch('permission/getMenuList')
+
+        const {
+          query
+        } = from
+        if (!query.redirect) {
+          next({
+            ...to,
+            replace: true
+          })
+        } else {
+          // store.getters.authRoutes
+          // 当前用户有此页面访问权限
+          if (hasRoutePath(store.getters.routes, query.redirect)) {
+            next({
+              path: query.redirect,
+              replace: true
+            })
+          } else {
+            // 路由有配置
+            if (hasRoutePath(authRoutes, query.redirect)) {
+              next({
+                path: '/noPermission',
+                replace: true
+              })
+            }
+
+          }
+
+        }
+
+      } else {
+
+        if (hasRoutePath(store.getters.routes, to.path)) {
+          next()
+        } else {
+          if (hasRoutePath(authRoutes, to.path)) {
+            next({
+              path: '/error/noPermission',
+              replace: true
+            })
+          } else {
+            next({
+              path: '/error/404',
+              replace: true
+            })
+          }
+        }
+
       }
     }
   } else {

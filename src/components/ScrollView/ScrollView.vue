@@ -1,10 +1,7 @@
 <template>
-  <el-scrollbar class="scroll-view"
-  :class="`${mode}-scroll-view`"
-  :wrapClass="wrapClass"
-  :viewStyle="viewStyle">
-    <slot></slot>
-  </el-scrollbar>
+<el-scrollbar class="scroll-view" :class="`${mode}-scroll-view`" :wrapClass="wrapClass" :viewStyle="viewStyle">
+  <slot></slot>
+</el-scrollbar>
 </template>
 <script>
 export default {
@@ -20,29 +17,41 @@ export default {
     wrapClass() {
       if (this.mode === 'vertical') {
         return 'scroll-inner-vertical-view'
-      } else {
+      } else if (this.mode === 'horizontal') {
         return 'scroll-inner-horizontal-view'
       }
     }
   }
 }
-
 </script>
-<style>
-.scroll-inner-vertical-view {
-  overflow-x: hidden !important;
-  margin-bottom: 0 !important;
+<style lang="scss">
+.vertical-scroll-view {
+    & > .scroll-inner-vertical-view {
+        overflow-x: hidden !important;
+        margin-bottom: 0 !important;
+    }
+    & > .el-scrollbar__bar.is-horizontal {
+        display: none;
+    }
+
 }
 
-.scroll-inner-horizontal-view {
-  overflow-y: hidden !important;
-}
+.horizontal-scroll-view {
+    & > .scroll-inner-horizontal-view {
+        height: 146% !important;
+    }
+    & > .el-scrollbar__bar.is-horizontal {
+        bottom: 0;
+    }
+    & > .el-scrollbar__bar.is-vertical {
+        display: none;
+    }
 
+}
 </style>
 <style lang="scss" scoped>
 .scroll-view {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
-
 </style>

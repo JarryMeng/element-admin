@@ -69,3 +69,13 @@ export function throttle(fn,timer=500) {
         }, timer);
     };
 }
+export const deepCopy = function(source) {
+  if (!source) {
+    return source
+  }
+  let sourceCopy = source instanceof Array ? [] : {}
+  for (let item in source) {
+    sourceCopy[item] = typeof source[item] === 'object' ? deepCopy(source[item]) : source[item]
+  }
+  return sourceCopy
+}

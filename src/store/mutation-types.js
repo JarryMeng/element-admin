@@ -16,6 +16,7 @@ export const SET_CONTENT_WIDTH = 'APP/SET_CONTENT_WIDTH'
 
 // 设置系统路由信息
 export const SET_ROUTES = 'PERMISSION/SET_ROUTES'
+// 删除路由信息
 export const REMOVE_ROUTES = 'PERMISSION/REMOVE_ROUTES'
 // 设置Token
 export const SET_ACCESS_TOKEN = 'USER/Access_Token'
@@ -25,3 +26,10 @@ export const SET_USERNAME = 'USER/SET_USERNAME'
 export const SET_USERID = 'USER/SET_USERID'
 // 角色id
 export const SET_ROLEID = 'USER/SET_ROLEID'
+
+// 增加TAGVIEW
+export const ADD_TAGVIEW = 'TAGVIEW/ADD_TAGVIEW'
+// 删除TAGVIEW
+export const DEL_TAGVIEW = 'TAGVIEW/DEL_TAGVIEW'
+// 删除所有VIEWS
+export const DEL_ALLVIEWS = 'TAGVIEW/DEL_ALLVIEWS'

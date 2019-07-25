@@ -65,17 +65,19 @@
     <el-progress :text-inside="true" :stroke-width="22" :percentage="80" status="warning"></el-progress>
     <el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception"></el-progress>
   </el-row>
+  <oa />
 </div>
 </template>
 
 <script>
+import oa from '@/components/text.vue'
 export default {
   name: 'home',
   components: {
-
+oa
   },
   mounted(){
-    
+
   },
   methods: {
 

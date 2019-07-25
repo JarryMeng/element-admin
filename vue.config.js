@@ -7,6 +7,9 @@ const {
 // vue.config.js
 module.exports = {
   publicPath: './',
+  transpileDependencies: [
+    
+  ],
   devServer: {
     // development server port 8080
     // port: 8080

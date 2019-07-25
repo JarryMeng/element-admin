@@ -21,7 +21,8 @@ export default {
   computed: {
     ...mapGetters(['theme', 'sidebar', 'fixedSiderbar']),
     styles() {
-      return `flex: 0 0 ${this.sidebar?'256':'80'}px;
+      // flex: 0 0 ${this.sidebar?'256':'80'}px;
+      return `
               max-width: ${this.sidebar?'256':'80'}px;
               min-width: ${this.sidebar?'256':'80'}px;
               width: ${this.sidebar?'256':'80'}px;`
@@ -32,10 +33,10 @@ export default {
 <style lang="scss">
 .app-sidebar {
   .sidebar-menu-wrap{
-    overflow: visible !important;
-    height: auto !important;
+    // overflow: visible !important;
+    // height: auto !important;
     .scroll-inner-vertical-view{
-      overflow: visible !important;
+      // overflow: visible !important;
     }
   }
 }
@@ -47,7 +48,7 @@ export default {
     width: auto !important;
     position: relative;
     z-index: 100;
-    min-height: 100vh;
+    // min-height: 100vh;
     display: flex;
     flex-direction: column;
     transition: all 0.18s linear;
@@ -67,6 +68,7 @@ export default {
         position: fixed;
         height: 100vh;
         left: 0;
+        bottom:0;
         top: 0;
     }
     .sidebar-menu-wrap {

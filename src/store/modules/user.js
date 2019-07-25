@@ -55,6 +55,7 @@ const actions = {
     dispatch
   }) {
     dispatch('permission/removeMenuList', null, { root: true })
+    dispatch('tagViews/delAllView', null, { root: true })
     commit(SET_ACCESS_TOKEN, '')
     removeToken()
     resetRouter()
