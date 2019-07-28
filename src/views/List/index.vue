@@ -1,7 +1,5 @@
 <template lang="html">
-  <div class="">
-    404
-  </div>
+  <router-view />
 </template>
 
 <script>

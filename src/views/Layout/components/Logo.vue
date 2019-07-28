@@ -19,9 +19,11 @@
 import {
   mapGetters
 } from 'vuex'
-import { title } from '@/settings'
+import {
+  title
+} from '@/settings'
 export default {
-  data:()=>({
+  data: () => ({
     title
   }),
   computed: {
@@ -31,9 +33,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
 .app-logo {
-    height: 64px;
+    height: $navbar-height;
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
@@ -56,7 +57,7 @@ export default {
         }
     }
     &.topmenu {
-        width: 256px;
+        width: $sidebar-width;
         box-shadow: none;
         &.dark {
             background: #001529;

@@ -8,8 +8,8 @@ const CONFIG = {
   API_URL: `${locationPath}/mineData/`,
   DATA_URL: "https://datahive.minedata.cn/data/",
   DATA_U: "https://datahive.minedata.cn/",
-  ACCESS_TOKEN: 'e8ad292f1c7c49aa88360ec1eddcde12',
-  SOLUTION: 12530
+  ACCESS_TOKEN: '16901418a2504ea7b33bda65ed98187d',
+  SOLUTION: 11149
 };
 const mapStyle = {
   "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",

@@ -6,12 +6,14 @@ $theme-yellow: #ff9402;
 $theme-blue: #0097fd;
 $ce8: #e8e8e8;
 $border-color: $ce8;
-
 $navbar-height: 64px;
 $sidebar-width: 256px;
+$sidebar-collapse-width: 80px;
 
+/** 将scss暴露出去 以便js引入 **/
 :export {
   defaultTheme: $default-theme;
   navbarHeight: $navbar-height;
   sidebarWidth: $sidebar-width;
+  sidebarCollapseWidth: $sidebar-collapse-width;
 }

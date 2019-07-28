@@ -89,7 +89,13 @@
         </div>
         <div class="switch-item">
           <div class="label">
-            开发中
+            开启标签导航
+          </div>
+          <ElSwitch :value="tagViewShow" @change="setTagViewsShow" />
+        </div>
+        <div class="switch-item">
+          <div class="label">
+            其他开发中
           </div>
         </div>
         <el-divider></el-divider>
@@ -118,19 +124,21 @@ export default {
     Popup
   },
   computed: {
-    ...mapGetters(['layoutMode', 'theme', 'themeColor', 'fixedHeader', 'contentWidth', 'fixedSiderbar'])
+    ...mapGetters(['layoutMode', 'theme', 'tagViewShow', 'themeColor', 'fixedHeader', 'contentWidth', 'fixedSiderbar'])
   },
   methods: {
     ...mapActions({
       setLayoutMode: 'app/setLayoutMode',
       setTheme: 'app/setTheme',
+      setTagViewsShow: 'app/setTagViewsShow',
       setThemeColor: 'app/setThemeColor',
       setContentWidth: 'app/setContentWidth',
       setFixedHeader: 'app/setFixedHeader',
       setFixedSiderbar: 'app/setFixedSiderbar'
     }),
-    async handleThemeColor(color){
+    async handleThemeColor(color) {
       await ThemeColor.changeTheme(color)
+      console.log('33333333333')
       this.setThemeColor(color)
     }
   }

@@ -1,16 +1,16 @@
+
 import {
   Message
 } from 'element-ui'
 import stroe from '@/store'
-// import {
-//   version
-// } from 'element-ui/package.json'
+import {
+  version
+} from 'element-ui/package.json'
 const ORIGINAL_THEME = '#409EFF' // default color
 export default class ThemeColor {
   static chalk = ''
   static async changeTheme(newtheme, noLoading = true) {
     const themeColor = stroe.getters.themeColor
-    console.log(themeColor)
     // 生成过样式  读取 store
     const oldVal = this.chalk ? themeColor : ORIGINAL_THEME
     if (typeof newtheme !== 'string') return
@@ -24,59 +24,57 @@ export default class ThemeColor {
         iconClass: 'el-icon-loading'
       })
     }
-    // 新的颜色集
+
     const newestCluster = this.getThemeCluster(newtheme.replace('#', ''))
-    // 之前的颜色集
     const originalCluster = this.getThemeCluster(oldVal.replace('#', ''))
-    // 蓝色的颜色集
-    const normalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
-    console.log('1111111111')
-    // css分离 link引入 更换逻辑
-    if (!this.chalk) {
+    // 根据最新的样式文本生成style标签 放到head
+    const getHandler = (variable, id) => {
+      return () => {
+        const originalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
+        const newStyle = this.updateStyle(this[variable], originalCluster, newestCluster)
 
-      const styleLinkTags = {}
-      let linkTags = [].slice.call(document.querySelectorAll('link'))
-      let linkStyles = []
-      linkTags.forEach(link => {
-        if (link.href.search(/\.css$/) === -1) return
-        const propName = link.href.substr(link.href.lastIndexOf('/') + 1)
-        if (styleLinkTags[propName]) return
-        styleLinkTags[propName] = link
-        linkStyles.push(this.getCSSString(link.href))
-      })
-
-      await Promise.all(linkStyles).then(arrData => {
-        // console.log(arrData)
-        let otherStyleText = ''
-        arrData.map(styleText => {
-          let styleInnerText = this.updateStyle(styleText, normalCluster, newestCluster)
-          otherStyleText += styleInnerText
-        })
-        let styleTag = document.getElementById('chalk-style')
+        let styleTag = document.getElementById(id)
         if (!styleTag) {
           styleTag = document.createElement('style')
-          styleTag.setAttribute('id', 'chalk-style')
+          styleTag.setAttribute('id', id)
           document.head.appendChild(styleTag)
         }
-        this.chalk = otherStyleText
-        styleTag.innerText = otherStyleText
-      })
-    } else {
-      let newStyleText = this.updateStyle(this.chalk, originalCluster, newestCluster)
-      let styleTag = document.getElementById('chalk-style')
-      if (!styleTag) {
-        styleTag = document.createElement('style')
-        styleTag.setAttribute('id', 'chalk-style')
-        document.head.appendChild(styleTag)
+        styleTag.innerText = newStyle
       }
-      this.chalk = newStyleText
-      styleTag.innerText = newStyleText
     }
-    if ($message) {
-      setTimeout(() => {
+
+    if (!this.chalk) {
+      let url = ''
+      // 开发环境 请求线上资源
+      if (process.env.NODE_ENV !== 'production') {
+        url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
+      } else {
+        url = './defaultTheme/index.css'
+      }
+      await this.getCSSString(url, 'chalk')
+    }
+    const chalkHandler = getHandler('chalk', 'chalk-style')
+
+    chalkHandler()
+    // style标签副本 匹配所有样式 替换颜色
+    const styles = [].slice.call(document.querySelectorAll('style'))
+      .filter(style => {
+        const text = style.innerText
+        return new RegExp(oldVal, 'i').test(text) && !/Chalk Variables/.test(text)
+      })
+    styles.forEach(style => {
+      const {
+        innerText
+      } = style
+      if (typeof innerText !== 'string') return
+      style.innerText = this.updateStyle(innerText, originalCluster, newestCluster)
+    })
+    setTimeout(() => {
+      if ($message) {
         $message.close()
-      }, 500)
-    }
+      }
+    }, 500)
+
   }
   // 样式文本 正则匹配替换 更新颜色
   static updateStyle(style, oldCluster, newCluster) {
@@ -87,13 +85,13 @@ export default class ThemeColor {
     return newStyle
   }
   // 请求地址样式资源
-  static getCSSString(url) {
+  static getCSSString(url, variable) {
     return new Promise(resolve => {
       const xhr = new XMLHttpRequest()
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          const styleText = xhr.responseText.replace(/@font-face{[^}]+}/, '')
-          resolve(styleText)
+          this[variable] = xhr.responseText.replace(/@font-face{[^}]+}/, '')
+          resolve()
         }
       }
       xhr.open('GET', url)

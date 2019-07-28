@@ -24,9 +24,10 @@
     <el-button type="info">信息按钮</el-button>
     <el-button type="warning">警告按钮</el-button>
     <el-button type="danger">危险按钮</el-button>
+    <el-button v-permission type="primary">我是只有admin用户才会显示的按钮</el-button>
   </el-row>
 
-  <el-row>
+  <el-row v-permission>
     <el-button plain>朴素按钮</el-button>
     <el-button type="primary" plain>主要按钮</el-button>
     <el-button type="success" plain>成功按钮</el-button>
@@ -65,18 +66,16 @@
     <el-progress :text-inside="true" :stroke-width="22" :percentage="80" status="warning"></el-progress>
     <el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception"></el-progress>
   </el-row>
-  <oa />
 </div>
 </template>
 
 <script>
-import oa from '@/components/text.vue'
 export default {
   name: 'home',
   components: {
-oa
+
   },
-  mounted(){
+  mounted() {
 
   },
   methods: {

@@ -26,7 +26,7 @@ import {
   mapActions
 } from 'vuex'
 export default {
-  computed:{
+  computed: {
     ...mapGetters(['userName'])
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
         padding: 0 10px;
         cursor: pointer;
         .avatar-wrapper {
-            line-height: 64px;
+            line-height: $navbar-height;
             font-size: 16px;
         }
     }

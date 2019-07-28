@@ -6,10 +6,15 @@ import {
   SET_THEME,
   SET_LAYOUT_MODE,
   SET_THEME_COLOR,
+  SET_TAG_VIEW_SHOW,
   SET_FIXED_HEADER,
   SET_FIXED_SIDERBAR,
   SET_CONTENT_WIDTH
 } from '../mutation-types'
+// import {
+//   appSetting
+// } from '@/settings'
+// console.log(appSetting)
 const state = {
   device: 'desktop',
   sidebar: true,
@@ -17,6 +22,7 @@ const state = {
   theme: storage.get('theme') || 'dark', // light  dark
   themeColor: storage.get('themeColor') || '#409EFF',
   fixedHeader: !!storage.get('fixedHeader'),
+  tagViewShow: !!storage.get('tagViewShow'),
   get contentWidth() { // fixed  fluid
     if (state.layoutMode === 'sidemenu') {
       return 'fluid'
@@ -50,6 +56,10 @@ const mutations = {
     storage.set('theme', theme)
     state.theme = theme
   },
+  [SET_TAG_VIEW_SHOW](state, isShow) {
+    storage.set('tagViewShow', Number(isShow))
+    state.tagViewShow = isShow
+  },
   [SET_THEME_COLOR](state, themeColor) {
     storage.set('themeColor', themeColor)
     state.themeColor = themeColor
@@ -75,6 +85,9 @@ const actions = {
   setTheme: ({
     commit
   }, theme) => commit(SET_THEME, theme),
+  setTagViewsShow: ({
+    commit
+  }, isShow) => commit(SET_TAG_VIEW_SHOW, isShow),
   setThemeColor: ({
     commit
   }, themeColor) => commit(SET_THEME_COLOR, themeColor),

@@ -1,8 +1,7 @@
 let Mock = require('mockjs')
 let Random = Mock.Random
 
-const authUserList = [
-  {
+const authUserList = [{
     username: "admin",
     userid: '1',
     token: Mock.mock('@guid'),
@@ -16,64 +15,84 @@ const authUserList = [
   }
 ]
 const authMenuList = [{
-  name: '首页',
-  icon: 'home',
-  path: 'home',
-  lv: '1',
+  name: 'Home',
+  text: '首页',
   auth: ['1'],
-  children: []
 }, {
-  name: 'Mapbox',
-  icon: 'home',
-  path: 'mapbox',
-  lv: '1',
+  name: 'MapBox',
+  text: 'MapBox',
   auth: ['1'],
   children: [{
-      name: 'Mapbox',
-      icon: '',
-      lv:'2',
-      auth: ['1','2'],
-      path: 'mapbox',
-      children: []
-    },{
-        name: 'MineData',
-        icon: '',
-        lv:'2',
-        auth: ['1','2'],
-        path: 'mineData',
-        children: []
-      },]
-},{
-  name: '列表页',
-  icon: 'list',
-  lv: '1',
-  auth: ['1','2'],
-  path: 'list',
+    name: 'MapBoxDefault',
+    text: '默认',
+    auth: ['1', '2'],
+    children: []
+  }, {
+    name: 'MapBoxMineData',
+    text: 'MineData',
+    auth: ['1', '2'],
+    children: []
+  }, {
+    name: 'MapBoxCustomMap',
+    text: '自定义',
+    auth: ['1', '2'],
+    children: []
+  }]
+}, {
+  name: 'List',
+  text: '列表页',
+  auth: ['1', '2'],
   children: [{
-      name: '列表1',
-      icon: '',
-      lv:'2',
-      auth: ['1','2'],
-      path: 'list1',
+      name: 'ListList1',
+      text: '列表页1',
+      auth: ['1', '2'],
+      children: [
+        {
+          name: 'ListList1List11',
+          text: '列表页1-1',
+          auth: ['1', '2'],
+        },
+        {
+          name: 'ListList1List12',
+          text: '列表页1-2',
+          auth: ['1', '2'],
+        }
+      ]
+    },
+    {
+      name: 'ListList2',
+      text: '列表页2',
+      auth: ['1', '2'],
       children: []
     },
     {
-      name: '列表2',
-      icon: '',
-      lv:'2',
-      auth: ['1','2'],
-      path: 'list2',
-      children: []
-    },
-    {
-      name: '列表3',
-      icon: '',
-      lv:'2',
-      auth: ['1','2'],
-      path: 'list3',
+      name: 'ListList3',
+      text: '列表页3',
+      auth: ['1', '2'],
       children: []
     }
   ]
+}, {
+  name: 'Echarts',
+  text: 'Echarts',
+  auth: ['1', '2'],
+  children: [{
+      name: 'EchartsLine',
+      text: '折线图',
+      auth: ['1', '2'],
+      children: []
+    },
+    {
+      name: 'EchartsBar',
+      text: '柱状图',
+      auth: ['1', '2'],
+      children: []
+    }
+  ]
+}, {
+  name: 'LinksExternalLinks',
+  text: '外链',
+  auth: ['1']
 }]
 
 
@@ -84,21 +103,21 @@ const login = {
   roleid: '1',
 }
 
-const menuListFormat = (()=>{
-  const searchMenuList = (menuList,userid)=>{
-    return menuList.map(menu=>{
-      if(menu.auth.indexOf(userid) != -1){
-        if(menu.children){
-          menu.children = searchMenuList(menu.children,userid)
+const menuListFormat = (() => {
+  const searchMenuList = (menuList, userid) => {
+    return menuList.map(menu => {
+      if (menu.auth.indexOf(userid) != -1) {
+        if (menu.children) {
+          menu.children = searchMenuList(menu.children, userid)
           return menu
         }
         return menu
       }
-    }).filter(d=>d)
+    }).filter(d => d)
   }
   // 根据用户id匹配用户菜单
-  return authUserList.map(user=>{
-    const menuList = searchMenuList(authMenuList,user.userid)
+  return authUserList.map(user => {
+    const menuList = searchMenuList(authMenuList, user.userid)
     // console.log(menuList)
     return {
       userid: user.userid,

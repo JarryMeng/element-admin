@@ -14,13 +14,13 @@ import {
   mapGetters
 } from 'vuex'
 import MenuItem from './MenuItem'
-import {
-  throttle
-} from '@/utils'
+// import {
+//   throttle
+// } from '@/utils'
 // menu菜单 承载其他超出菜单块的宽度
-const OTHER_MENU = 80
+// const OTHER_MENU = 80
 // 原始routerList 带 元素宽度
-let routeList = []
+// let routeList = []
 export default {
   props: {
     mode: {
@@ -41,7 +41,7 @@ export default {
     MenuItem
   },
   computed: {
-    ...mapGetters(['sidebar', 'theme', 'contentWidth', 'authRoutes']), //'authRoutes'
+    ...mapGetters(['sidebar', 'theme', 'contentWidth', 'authRoutes']),
     collapse() {
       // 横向菜单时  子项 不缩小
       if (this.mode === 'horizontal') {
@@ -51,9 +51,6 @@ export default {
     }
   },
   watch: {
-    authRoutes(){
-      console.log('aaaaaaaaaaaaaaaaaaaaaa')
-    }
     // contentWidth(val) {
     //   // 鉴于DOM渲染异步 先这样凑合吧
     //   setTimeout(this.horizontalResizeMenu, 500)
@@ -68,7 +65,7 @@ export default {
     //   window.removeEventListener('resize', this._menuResize)
     //   this._menuResize = null
     // }
-  },
+  }
   // methods: {
   //   horizontalMenuItemWidth() {
   //     if (this.mode === 'horizontal') {
@@ -119,7 +116,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
 .app-sidebar-menu {
 
     border-right: 0;
@@ -139,7 +135,7 @@ export default {
     }
     &.menu-mode-vertical {
         padding: 16px 0;
-        width: 80px;
+        width: $sidebar-collapse-width;
         &:not(.el-menu--collapse) {
             width: $sidebar-width;
         }

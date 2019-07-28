@@ -13,6 +13,10 @@ import {
 } from 'vuex'
 import Logo from './Logo.vue'
 import Menu from './Menu'
+import {
+  sidebarWidth,
+  sidebarCollapseWidth
+} from '@/styles/base.scss'
 export default {
   components: {
     Logo,
@@ -23,27 +27,26 @@ export default {
     styles() {
       // flex: 0 0 ${this.sidebar?'256':'80'}px;
       return `
-              max-width: ${this.sidebar?'256':'80'}px;
-              min-width: ${this.sidebar?'256':'80'}px;
-              width: ${this.sidebar?'256':'80'}px;`
+              max-width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth };
+              min-width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth};
+              width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth};`
     }
   }
 }
 </script>
 <style lang="scss">
 .app-sidebar {
-  .sidebar-menu-wrap{
-    // overflow: visible !important;
-    // height: auto !important;
-    .scroll-inner-vertical-view{
-      // overflow: visible !important;
+    .sidebar-menu-wrap {
+        // overflow: visible !important;
+        // height: auto !important;
+        .scroll-inner-vertical-view {
+            // overflow: visible !important;
+        }
     }
-  }
 }
-
 </style>
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
+
 .app-sidebar {
     width: auto !important;
     position: relative;
@@ -53,8 +56,8 @@ export default {
     flex-direction: column;
     transition: all 0.18s linear;
     overflow: visible !important;
-    .app-logo{
-      padding-left: 20px;
+    .app-logo {
+        padding-left: 20px;
     }
     &.light {
         background-color: #fff;
@@ -68,7 +71,7 @@ export default {
         position: fixed;
         height: 100vh;
         left: 0;
-        bottom:0;
+        bottom: 0;
         top: 0;
     }
     .sidebar-menu-wrap {

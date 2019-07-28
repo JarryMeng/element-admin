@@ -17,6 +17,10 @@
       <UserMenu />
     </RowWidth>
   </div>
+  <RowWidth v-if="tagViewShow">
+    <TagsView />
+  </RowWidth>
+
 </el-header>
 </template>
 
@@ -32,6 +36,7 @@ import Menu from '../Menu'
 import UserMenu from './UserMenu'
 import FullScreen from '@/components/FullScreen'
 import ThemePicker from '@/components/ThemePicker'
+import TagsView from '@/components/TagsView'
 export default {
   components: {
     Hamburger,
@@ -40,10 +45,11 @@ export default {
     Menu,
     UserMenu,
     FullScreen,
-    ThemePicker
+    ThemePicker,
+    TagsView
   },
   computed: {
-    ...mapGetters(['sidebar', 'theme', 'layoutMode', 'fixedHeader', 'fixedSiderbar'])
+    ...mapGetters(['sidebar', 'theme', 'tagViewShow', 'layoutMode', 'fixedHeader', 'fixedSiderbar'])
   },
   methods: {
     ...mapActions({
@@ -54,11 +60,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
+
 .app-navbar {
     position: relative;
     padding: 0;
     z-index: 80;
+    background: #fff;
     // height: 64px !important;
     height: inherit !important;
     &.fixed-sider {
@@ -67,10 +74,11 @@ export default {
         top: 0;
         right: 0;
         z-index: 10;
-        width: calc(100% - 80px);
+
+        width: calc(100% - #{$sidebar-collapse-width});
         transition: width 0.18s linear;
         &.side-opened {
-            width: calc(100% - 256px);
+            width: calc(100% - #{$sidebar-width});
         }
     }
     &.fixed-header {
@@ -84,17 +92,20 @@ export default {
             left: 0;
         }
         &.sidemenu {
-            width: calc(100% - 80px);
+            width: calc(100% - #{$sidebar-collapse-width});
         }
 
         &.side-opened {
             &.sidemenu {
-                width: calc(100% - 256px);
+                width: calc(100% - #{$sidebar-width});
             }
         }
     }
 
     .header {
+
+        position: relative;
+        z-index: 100;
         width: 100%;
         height: $navbar-height;
         background: #fff;
@@ -110,6 +121,8 @@ export default {
         }
     }
     .navbar-header {
+        position: relative;
+        z-index: 100;
         @include flex-box(row,flex-start,center);
         height: $navbar-height;
         width: 100%;

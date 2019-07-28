@@ -1,5 +1,5 @@
-const title = 'Element-Admin'
-const colorList = [{
+export const title = 'Element-Admin'
+export const colorList = [{
     key: '薄暮',
     color: '#F5222D'
   },
@@ -33,7 +33,12 @@ const colorList = [{
   }
 ]
 
-export {
-  title,
-  colorList
+export const appSetting = {
+  layoutMode: 'sidemenu', //  sidemenu topmenu
+  theme: 'light', // light  dark
+  themeColor: '#409EFF',
+  fixedSiderbar: true,
+  fixedHeader: true,
+  tagViewShow: false,
+  contentWidth: 'fluid' // fixed  fluid
 }

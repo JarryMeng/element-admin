@@ -1,8 +1,8 @@
 import router from './router'
 import store from './store'
-import {
-  Message
-} from 'element-ui'
+// import {
+//   Message
+// } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css'
 import {
@@ -15,9 +15,9 @@ import {
 import {
   authRoutes
 } from '@/router/routes'
-import {
-  deepCopy
-} from '@/utils'
+// import {
+//   deepCopy
+// } from '@/utils'
 // NProgress Configuration
 NProgress.configure({
   showSpinner: false
@@ -34,7 +34,7 @@ function hasRoutePath(routes, path) {
     }
   })
 }
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   NProgress.start()
   // 设置系统标题  pageTitle-documentTitle
   setDocumentTitle(getPageTitle(to.meta.title))
@@ -48,17 +48,12 @@ router.beforeEach(async (to, from, next) => {
       })
       NProgress.done()
     } else {
-
-      // 简单的判断逻辑  用户权限菜单是生成好
-      // 用户菜单
-      // debugger;
-
-      // 用户路由已经获取
+      // 判断  用户权限菜单是生成好
+      // 用户路由没有获取
       if (!store.getters.authRoutes.length) {
-
         // 获取用户权限菜单
         await store.dispatch('permission/getMenuList')
-
+        console.log('未获取用户权限菜单', from, to)
         const {
           query
         } = from
@@ -79,7 +74,7 @@ router.beforeEach(async (to, from, next) => {
             // 路由有配置
             if (hasRoutePath(authRoutes, query.redirect)) {
               next({
-                path: '/noPermission',
+                path: '/401',
                 replace: true
               })
             }
@@ -89,13 +84,13 @@ router.beforeEach(async (to, from, next) => {
         }
 
       } else {
-
+        console.log('已获取用户权限菜单', from, to)
         if (hasRoutePath(store.getters.routes, to.path)) {
           next()
         } else {
           if (hasRoutePath(authRoutes, to.path)) {
             next({
-              path: '/error/noPermission',
+              path: '/error/401',
               replace: true
             })
           } else {

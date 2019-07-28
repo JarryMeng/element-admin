@@ -1,19 +1,18 @@
 <template>
-<el-main :class="[layoutMode,{'fixed-header':fixedHeader},{'fixed-sider':fixedSiderbar},{ 'side-opened':sidebar }]" class="app-main">
+<el-main :class="[layoutMode,{'has-tag-view': tagViewShow},{'fixed-header':fixedHeader},{'fixed-sider':fixedSiderbar},{ 'side-opened':sidebar }]" class="app-main">
   <RowWidth>
-    <TagsView />
     <div class="app-main-content">
-      <router-view />
+      <transition name="el-fade-in" mode="out-in">
+        <router-view />
+      </transition>
     </div>
   </RowWidth>
 </el-main>
-<!-- <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
+<!--
       <keep-alive :include="cachedViews">
         <router-view :key="key" />
       </keep-alive>
-    </transition>
-  </section> -->
+     -->
 </template>
 
 <script>
@@ -21,15 +20,13 @@ import {
   mapGetters
 } from 'vuex'
 import RowWidth from './RowWidth'
-import TagsView from '@/components/TagsView'
 export default {
   name: 'AppMain',
   components: {
-    RowWidth,
-    TagsView
+    RowWidth
   },
   computed: {
-    ...mapGetters(['sidebar', 'theme', 'layoutMode', 'fixedHeader', 'fixedSiderbar']),
+    ...mapGetters(['sidebar', 'theme', 'tagViewShow', 'layoutMode', 'fixedHeader', 'fixedSiderbar']),
 
     // cachedViews() {
     //   return this.$store.state.tagsView.cachedViews
@@ -42,10 +39,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
+
+// tagViews高度
+$tagViewsH: 40px;
 .app-main {
     @include flex-box(column);
-    min-height: calc(100% - 64px);
+    min-height: calc(100% - #{$navbar-height});
+    &.has-tag-view {
+        min-height: calc(100% - #{$navbar-height + $tagViewsH});
+        &.fixed-header {
+            margin-top: $navbar-height + $tagViewsH;
+        }
+        &.fixed-sider {
+            margin-top: $navbar-height + $tagViewsH;
+        }
+    }
     // background:#757575;
     // sidemenu side-opened
     &.fixed-header {
@@ -68,9 +76,9 @@ export default {
         right: 0;
         margin-top: $navbar-height;
         transition: width 0.18s linear;
-        width: calc(100% - 80px);
+        width: calc(100% - #{$sidebar-collapse-width});
         &.side-opened {
-            width: calc(100% - 256px);
+            width: calc(100% - #{$sidebar-width});
         }
     }
 }

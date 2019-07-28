@@ -6,6 +6,7 @@ const getters = {
   sidebar: state => state.app.sidebar,
   layoutMode: state => state.app.layoutMode,
   theme: state => state.app.theme,
+  tagViewShow: state => state.app.tagViewShow,
   themeColor: state => state.app.themeColor,
   fixedHeader: state => state.app.fixedHeader,
   contentWidth: state => state.app.contentWidth,

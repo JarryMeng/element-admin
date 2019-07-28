@@ -1,16 +1,28 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const SkeletonWebpackPlugin = require('vue-skeleton-webpack-plugin');
 const {
   serverUrl,
   port
 } = require('./mock/config');
 // vue.config.js
 module.exports = {
+  // chainWebpack: config => {
+  //   config
+  //     .entry('index')
+  //     .add('babel-polyfill')
+  // },
   publicPath: './',
   transpileDependencies: [
-    
+
   ],
+  lintOnSave: process.env.NODE_ENV !== 'production',
   devServer: {
+    // 显示lint语法警告报错
+    // overlay: {
+    //   warnings: true,
+    //   errors: true
+    // },
     // development server port 8080
     // port: 8080
     proxy: {
@@ -28,21 +40,46 @@ module.exports = {
       //   }
     }
   },
-
   // disable source map in production
   productionSourceMap: false,
-  // 打包 将element-ui 默认样式文件 打包进去 编译主题会用到
-  // 开发环境 无效  编译主题会获取线上样式
-  configureWebpack: config => {
-    if (process.env.NODE_ENV === 'production') {
-      return {
-        plugins: [
-          new CopyWebpackPlugin([{
-            from: path.join(__dirname, 'node_modules/element-ui/lib/theme-chalk/index.css'),
-            to: path.join(__dirname, 'dist/defaultTheme/index.css')
-          }])
-        ]
+  css: {
+    // 是否使用css分离插件 ExtractTextPlugin
+    extract: true,
+    // 开启 CSS source maps?
+    sourceMap: false,
+    // 启用 CSS modules for all css / pre-processor files.
+    modules: false,
+    loaderOptions: {
+      // 将scss全局引入
+      sass: {
+        data: `@import "@/styles/mixins.scss";`
       }
+    }
+  },
+  configureWebpack: config => {
+    let plugins = [
+      new SkeletonWebpackPlugin({
+        webpackConfig: {
+          entry: {
+            app: path.join(__dirname, './src/skeleton/skeleton.js'),
+          },
+        },
+        minimize: true,
+        quiet: true,
+      })
+    ]
+    // if (process.env.NODE_ENV === 'production') {
+    //
+    //   plugins.push(
+    //     new CopyWebpackPlugin([{
+    //       from: path.join(__dirname, 'node_modules/element-ui/lib/theme-chalk/index.css'),
+    //       to: path.join(__dirname, 'dist/defaultTheme/index.css')
+    //     }])
+    //   )
+    //
+    // }
+    return {
+      plugins
     }
   }
 }

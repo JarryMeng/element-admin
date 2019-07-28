@@ -12,13 +12,13 @@
       <i v-if="routeItem.meta.icon" :class="routeItem.meta.icon"></i>
       <span slot="title">{{routeItem.meta.title}}</span>
     </template>
-    <MenuItem v-if="routeItem.children.length" v-for="(route,index) in routeItem.children" :key="index" :item="route" />
+    <MenuItem v-for="(route,index) in routeItem.children" :key="index" :item="route" />
   </el-submenu>
 </template>
 <script>
-import {
-  mapGetters
-} from 'vuex'
+// import {
+//   mapGetters
+// } from 'vuex'
 import ALink from './ALink'
 export default {
   name: 'MenuItem',
@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/styles/mixins.scss';
+
 .menu-mode-vertical {
     // 菜单可以跳转子项样式 menu-item
     @mixin menu-item() {

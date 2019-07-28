@@ -7,6 +7,8 @@ export const SET_THEME = 'APP/SET_THEME'
 export const SET_LAYOUT_MODE = 'APP/SET_LAYOUT_MODE'
 // 设置主题色
 export const SET_THEME_COLOR = 'APP/SET_THEME_COLOR'
+// 设置视图标签
+export const SET_TAG_VIEW_SHOW = 'APP/SET_TAG_VIEW_SHOW'
 // 设置固定 Header
 export const SET_FIXED_HEADER = 'APP/SET_FIXED_HEADER'
 // 设置固定侧边菜单

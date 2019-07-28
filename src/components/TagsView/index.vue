@@ -9,9 +9,7 @@
         tag="div"
         v-for="(item,index) in viewsList"
         :key="index" @click="handleClick(item)">
-        <span class="">
-          {{ item.text }}
-        </span>
+        <span>{{ item.text }}</span>
         <i class="close-icon el-icon-close" v-if="item.del" @click.prevent="handleDel(item)"></i>
       </router-link>
     </div>
@@ -22,7 +20,6 @@
 <script>
 import {
   mapGetters,
-  mapMutations,
   mapActions
 } from 'vuex'
 export default {
@@ -53,7 +50,7 @@ export default {
       addTagView: 'tagViews/addTagView',
       delTagView: 'tagViews/delTagView'
     }),
-    // 首页和当前选中页
+    // 默认增加 首页和当前选中页
     getDefaultVisitTageView() {
       if (this.authRoutes.length) {
         const homePath = this.authRoutes[0].redirect
@@ -74,7 +71,6 @@ export default {
         hasRoutePath(this.authRoutes, homePath, false)
         hasRoutePath(this.authRoutes, currentPath)
       }
-
     },
     wheelScroll(e) {
       const eventDelta = -e.wheelDelta || -e.deltaY
@@ -92,18 +88,19 @@ export default {
           path: viewsList[viewsList.length - 1].path
         })
       }
-
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
+
 .tags-view {
-    margin: -20px -20px 20px;
+    // margin: -20px -20px 20px;
+    background: #fff;
     @include border(bottom);
-    height: 40x;
+    height: 40px;
+    overflow: hidden;
     padding: 0 20px;
     .tags-list {
         white-space: nowrap;

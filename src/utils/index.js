@@ -1,4 +1,11 @@
 import Cookies from 'js-cookie'
+
+export function timeFix() {
+  const time = new Date()
+  const hour = time.getHours()
+  return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好'
+}
+
 export const storage = (() => {
   if (!window.localStorage) {
     throw new Error('您的浏览器不支持localStorage')
@@ -10,7 +17,7 @@ export const storage = (() => {
     },
     get(key) {
       let keyVal
-      // JSON.parse方法 字符串数子 隐性转换 为数字
+      // JSON.parse方法 字符串数子 转换 为数字
       try {
         keyVal = localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : ''
       } catch (e) {

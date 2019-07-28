@@ -1,6 +1,6 @@
 import {
   authRoutes,
-  constantRoutes,
+  // constantRoutes,
   othenRoutes
 } from '../../router/routes'
 import router from '@/router'
@@ -11,8 +11,10 @@ import {
 import {
   menuList
 } from '@/api/user'
-// 深拷贝  解决 vuex mutations 修改state问题
-import { deepCopy } from '@/utils'
+// 深拷贝  解决 vuex strict模式下 mutations 外 修改state问题
+import {
+  deepCopy
+} from '@/utils'
 
 // 后台用户路由和定义好的权限路由 匹配
 const recursionRouter = (userRoutes = [], authRoutes = []) => {
@@ -21,9 +23,19 @@ const recursionRouter = (userRoutes = [], authRoutes = []) => {
   authRoutes.forEach(authRoute => {
     // 后台返回路由
     userRoutes.forEach(userRoute => {
-      if (userRoute.name === authRoute.meta.title) {
+      // 系统定义好的all路由只有一个子项
+      if (authRoute.children && authRoute.children.length === 1) {
+        // 后台返回路由 直接和 子项匹配
+        const [onlyChild] = authRoute.children
+        if (userRoute.name === onlyChild.name) {
+          realRoutes.push(authRoute)
+          return
+        }
+      }
+      // 后台 name 和 前台 name做匹配
+      if (userRoute.name === authRoute.name) {
         // 有子路由  递归
-        if (userRoute.children && userRoute.children.length > 0) {
+        if (userRoute.children && userRoute.children.length && authRoute.children && authRoute.children.length) {
           authRoute.children = recursionRouter(userRoute.children, authRoute.children)
         }
         realRoutes.push(authRoute)
@@ -56,11 +68,20 @@ const actions = {
     const authMenuList = await menuList(rootState.user.userId).then(res => res.menu)
     // 匹配用户权限菜单
     const authRoutesList = recursionRouter(authMenuList, authRoutes)
+    console.log(authRoutesList)
+    // 寻找首页path
+    const getRouteHomePath = routes => {
+      if (routes.children && routes.children.length) {
+        return getRouteHomePath(routes.children[0])
+      } else {
+        return routes.path
+      }
+    }
     // 将第一个路由设置成首页 默认进入页
     const authMenuRoutes = authRoutesList.map((item, index) => {
       if (index === 0) {
         item.path = '/'
-        item.redirect = item.children.length ? item.children[0].path : '/'
+        item.redirect = getRouteHomePath(item)
       }
       return item
     })

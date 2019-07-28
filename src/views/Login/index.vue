@@ -16,7 +16,7 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="passWord">
-        <el-input placeholder="密码" prefix-icon="el-icon-lock" v-model="loginForm.passWord">
+        <el-input type="passWord" placeholder="密码" prefix-icon="el-icon-lock" v-model="loginForm.passWord">
         </el-input>
       </el-form-item>
       支持 admin user 两种用户登录 密码随意
@@ -34,6 +34,9 @@ import {
 import {
   title
 } from '@/settings'
+import {
+  timeFix
+} from '@/utils'
 export default {
   data() {
     return {
@@ -71,12 +74,31 @@ export default {
                 path: '/'
               })
               this.loading = false
+              setTimeout(() => {
+                console.log('alksdjlaks')
+                this.$notify({
+                  title: '欢迎',
+                  offset: 30,
+                  message: `${timeFix()},欢迎回来！`,
+                  type: 'success'
+                })
+                // this.$message({
+                //   dangerouslyUseHTMLString: true,
+                //   customClass: 'welcome-notify',
+                //   iconClass: ' ',
+                //   offset: 50,
+                //   message: `<div>
+                //     <div class="title">欢迎</div>
+                //     <div class="content">${timeFix()},欢迎回来！</div>
+                //   </div>`
+                // });
+              }, 1000)
             })
             .catch(() => {
               this.loading = false
             })
         } else {
-          return false;
+          return false
         }
       })
 
