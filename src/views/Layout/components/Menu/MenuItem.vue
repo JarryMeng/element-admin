@@ -230,6 +230,8 @@ $menu-item-height: 40px;
 }
 // 横向菜单样式
 .menu-mode-horizontal {
+    // width: auto!important;
+    // white-space: nowrap;
     // 菜单子项常态样式
     @mixin menu-item($theme) {
         .link-a {
@@ -238,27 +240,48 @@ $menu-item-height: 40px;
             height: $navbar-height;
             line-height: $navbar-height;
             @if $theme == 'light' {
-                color: $light-color;
+                color: $light-color !important;
             }
             @if $theme == 'dark' {
-                color: $dark-color;
+                color: $dark-color !important;
             }
         }
         .menu-item {
+
             height: $navbar-height !important;
             line-height: $navbar-height !important;
             @if $theme == 'light' {
-                color: $light-color;
+                color: $light-color !important;
+                & > * {
+                    color: $light-color !important;
+                }
             }
             @if $theme == 'dark' {
-                color: $dark-color;
+                color: $dark-color !important;
+                & > * {
+                    color: $dark-color !important;
+                }
             }
         }
         .sub-menu-item {
+            // display: inline-block;
+            // float: none;
             // margin: 4px 0;
             .el-submenu__title {
                 height: $navbar-height !important;
                 line-height: $navbar-height !important;
+                @if $theme == 'light' {
+                    color: $light-color !important;
+                    & > * {
+                        color: $light-color !important;
+                    }
+                }
+                @if $theme == 'dark' {
+                    color: $dark-color !important;
+                    & > * {
+                        color: $dark-color !important;
+                    }
+                }
             }
         }
         // 悬浮菜单
@@ -272,15 +295,22 @@ $menu-item-height: 40px;
                 float: none;
                 height: $menu-item-height !important;
                 line-height: $menu-item-height !important;
-                // @if $theme == 'light' {
-                //     background: $dark-sub-menu-bg;
-                // }
+                @if $theme == 'light' {
+                    color: $light-color !important;
+                    & > * {
+                        color: $light-color !important;
+                    }
+                }
                 @if $theme == 'dark' {
+                    color: $dark-color !important;
                     background: $dark-sub-menu-bg;
+                    & > * {
+                        color: $dark-color !important;
+                    }
                 }
             }
             .sub-menu-item {
-                // margin: 4px 0;
+                display: block;
                 .el-submenu__title {
                     height: $menu-item-height !important;
                     line-height: $menu-item-height !important;
@@ -293,9 +323,9 @@ $menu-item-height: 40px;
                         background: $dark-sub-menu-bg;
                     }
                     @if $theme == 'light' {
-                        color: $light-active-hover-color !important;
+                        color: $light-color !important;
                         & > * {
-                            color: $light-active-hover-color !important;
+                            color: $light-color !important;
                         }
                     }
                 }
@@ -405,6 +435,7 @@ $menu-item-height: 40px;
                     }
                 }
             }
+
         }
     }
     &.light {
