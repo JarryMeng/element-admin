@@ -2,7 +2,8 @@
   <div class="user-menu">
     <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="hover">
       <div class="avatar-wrapper">
-        <img src="" class="user-avatar">
+        <el-avatar icon="el-icon-user-solid"></el-avatar>
+        <!-- <img src="" class="user-avatar"> -->
         {{userName}}
         <i class="el-icon-caret-bottom"/>
       </div>
@@ -51,6 +52,11 @@ export default {
         .avatar-wrapper {
             line-height: $navbar-height;
             font-size: 16px;
+            @include flex-box(row,flex-start,center);
+            .el-avatar{
+              display: inline-block;
+              margin-right: 6px;
+            }
         }
     }
 }

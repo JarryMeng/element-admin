@@ -55,265 +55,365 @@ export default {
 </script>
 
 <style lang="scss">
+// 深色
+$dark-bg: #001529;
+$dark-active-hover-bg: $default-theme;
+$dark-color: rgba(255,255,255,0.65);
+$dark-active-hover-color: #fff;
+$dark-sub-menu-bg: #000c17;
+// 浅色
+$light-bg: #fff;
+$light-active-hover-bg: #ecf5ff;
+$light-color: #303133;
+$light-active-hover-color: $default-theme;
 
+$menu-item-height: 40px;
+// 纵向菜单样式
 .menu-mode-vertical {
-    // 菜单可以跳转子项样式 menu-item
-    @mixin menu-item() {
-        width: 100%;
-        height: 40px;
-        line-height: 40px !important;
-        // transition: all 0.18s;
-    }
-    // 菜单可以跳转子项包裹a标签样式
-    @mixin link-a() {
-        display: block;
-        width: 100%;
-        margin: 4px 0;
-        position: relative;
-        // transition: all 0.18s;
-        .menu-item {
-            @include menu-item();
-        }
-    }
-    // 带有子项菜单
-    @mixin sub-menu-item() {
-        .el-submenu__title {
-            height: 40px;
-            line-height: 40px;
-        }
-        .el-menu {
-            background: transparent;
-            .link-a {
-                @include link-a();
+    // 菜单子项常态样式
+    @mixin menu-item($theme) {
+        .link-a {
+            display: inline-block;
+            width: 100%;
+            height: $menu-item-height;
+            @if $theme== 'light' {
+                color: $light-color;
+            }
+            @if $theme== 'dark' {
+                color: $dark-color;
+            }
+            margin: 4px 0;
+            .menu-item {
+                margin: 0;
             }
         }
-    }
-    // 折叠
-    &.el-menu--collapse {
         .menu-item {
-
-            .el-tooltip {
-                width: 80px !important;
-                text-align: center;
-                i {
-                    margin-right: 0 !important;
-                }
+            height: $menu-item-height !important;
+            line-height: $menu-item-height !important;
+            margin: 4px 0;
+            @if $theme== 'light' {
+                color: $light-color;
+            }
+            @if $theme== 'dark' {
+                color: $dark-color;
             }
         }
         .sub-menu-item {
-            &.is-active {
-                .el-submenu__title {
-                    width: 80px !important;
+            margin: 4px 0;
+            .el-submenu__title {
+                height: $menu-item-height;
+                line-height: $menu-item-height !important;
+                @if $theme== 'light' {
+                    color: $light-color;
+                }
+                @if $theme== 'dark' {
+                    color: $dark-color;
+                }
+            }
+            .el-menu {
+                @if $theme== 'dark' {
+                    background: $dark-sub-menu-bg;
+                    box-shadow: inset 0 2px 8px rgba(0,0,0,.45);
+                }
+
+            }
+        }
+        // 折叠
+        &.el-menu--collapse {
+
+            .menu-item {
+                .el-tooltip {
+                    width: $sidebar-collapse-width !important;
                     text-align: center;
-                    * {
-                        color: $default-theme;
+                    i {
+                        margin-right: 0 !important;
                     }
                 }
             }
-            .el-submenu__title {
-                width: 80px !important;
-                text-align: center;
+            .sub-menu-item {
+                .el-submenu__title {
+                    width: $sidebar-collapse-width !important;
+                    text-align: center;
+                }
+            }
+            // 悬浮菜单
+            .el-menu--popup {
+                @if $theme== 'dark' {
+                    border: 0;
+                }
+                .sub-menu-item {
+                    .el-submenu__title {
+                        width: 100% !important;
+                        text-align: left;
+                    }
+                }
             }
         }
     }
-    .link-a {
-        @include link-a();
-    }
-    .sub-menu-item {
-        @include sub-menu-item();
-    }
-    &.dark {
+    // 菜单子项选中样式
+    @mixin menu-item-active-hover($theme) {
         .link-a {
-            &.router-link-active {
-                background-color: $default-theme;
+            &.router-link-active,
+            &:hover {
+                @if $theme == 'light' {
+                    color: $light-active-hover-color !important;
+                    background: $light-active-hover-bg !important;
+                }
+                @if $theme == 'dark' {
+                    color: $dark-active-hover-color !important;
+                    background: $dark-active-hover-bg !important;
+                }
             }
         }
         .menu-item {
-            color: rgba(255, 255, 255, 0.65);
-            * {
-                color: rgba(255, 255, 255, 0.65);
-            }
             &.is-active,
             &:hover {
-                background-color: $default-theme;
-                color: #fff;
-                * {
-                    color: #fff;
+                @if $theme == 'light' {
+                    color: $light-active-hover-color !important;
+                    background: $light-active-hover-bg !important;
+                    & > * {
+                        color: $light-active-hover-color !important;
+                    }
+                }
+                @if $theme == 'dark' {
+                    color: $dark-active-hover-color !important;
+                    background: $dark-active-hover-bg !important;
+                    & > * {
+                        color: $dark-active-hover-color !important;
+                    }
                 }
             }
         }
         .sub-menu-item {
-            .el-submenu__title {
-                color: rgba(255, 255, 255, 0.65);
-                * {
-                    color: rgba(255, 255, 255, 0.65);
-                }
-                &:hover {
-                    background: transparent;
-                    color: $default-theme;
-                    * {
-                        color: $default-theme;
+            .el-submenu__title:hover {
+                @if $theme== 'dark' {
+                    color: $default-theme !important;
+                    background: transparent !important;
+                    & > * {
+                        color: $default-theme !important;
                     }
                 }
             }
-            .el-menu{
-              background: #001529;
-              .menu-item{
-                background: #001529;
-                &:hover,&.is-active {
-                    background: $default-theme;
-                    color: #fff;
-                    * {
-                        color: #fff;
+        }
+        // 折叠
+        &.el-menu--collapse {
+            &.sub-menu-item:hover,
+            .sub-menu-item.is-active {
+                .el-submenu__title {
+                    @if $theme == 'light' {
+                        color: $light-active-hover-color !important;
+                        background: $light-active-hover-bg !important;
+                        & > * {
+                            color: $light-active-hover-color !important;
+                        }
                     }
+                    @if $theme == 'dark' {
+                        color: $dark-active-hover-color !important;
+                        background: $dark-active-hover-bg !important;
+                        & > * {
+                            color: $dark-active-hover-color !important;
+                        }
+                    }
+
                 }
-              }
             }
         }
     }
     &.light {
-        .link-a {
-            &.router-link-active {
-                background-color: #ecf5ff;
-            }
-        }
-        .menu-item {
-            &.is-active,
-            &:hover {
-                background-color: #ecf5ff;
-                * {
-                    color: $default-theme;
-                }
-            }
-        }
-        .sub-menu-item {
-            .el-submenu__title {
-                &:hover {
-                    background: transparent;
-                    color: $default-theme;
-                    * {
-                        color: $default-theme;
-                    }
-                }
-            }
-
-        }
+        @include menu-item(light);
+        @include menu-item-active-hover(light);
+    }
+    &.dark {
+        @include menu-item(dark);
+        @include menu-item-active-hover(dark);
     }
 }
+// 横向菜单样式
 .menu-mode-horizontal {
-
-    // 菜单可以跳转子项样式 menu-item
-    @mixin menu-item() {
-        height: $navbar-height;
-        line-height: $navbar-height !important;
-        background: transparent !important;
-        &.is-active,
-        &:hover {
-
-            border-bottom: 2px solid $default-theme;
-            color: $default-theme !important;
-            *{
-              color: $default-theme !important;
+    // 菜单子项常态样式
+    @mixin menu-item($theme) {
+        .link-a {
+            display: inline-block;
+            float: left;
+            height: $navbar-height;
+            line-height: $navbar-height;
+            @if $theme == 'light' {
+                color: $light-color;
+            }
+            @if $theme == 'dark' {
+                color: $dark-color;
             }
         }
-    }
-    // 菜单可以跳转子项包裹a标签样式
-    @mixin link-a() {
-        display: inline-block;
-        position: relative;
-        float: left;
         .menu-item {
-            @include menu-item();
-
+            height: $navbar-height !important;
+            line-height: $navbar-height !important;
+            @if $theme == 'light' {
+                color: $light-color;
+            }
+            @if $theme == 'dark' {
+                color: $dark-color;
+            }
         }
-
-    }
-    // 带有子项菜单
-    @mixin sub-menu-item() {
-        height: 64px;
-        &.is-active,
-        &:hover {
-
+        .sub-menu-item {
+            // margin: 4px 0;
             .el-submenu__title {
-                color: $default-theme;
-                border-bottom: 2px solid $default-theme !important;
-                * {
-                    color: $default-theme;
+                height: $navbar-height !important;
+                line-height: $navbar-height !important;
+            }
+        }
+        // 悬浮菜单
+        .el-menu--popup {
+            @if $theme == 'dark' {
+                background: $dark-sub-menu-bg;
+            }
+            .link-a,
+            .menu-item {
+                display: block;
+                float: none;
+                height: $menu-item-height !important;
+                line-height: $menu-item-height !important;
+                // @if $theme == 'light' {
+                //     background: $dark-sub-menu-bg;
+                // }
+                @if $theme == 'dark' {
+                    background: $dark-sub-menu-bg;
                 }
             }
-        }
-        .el-submenu__title {
-            height: 64px !important;
-            line-height: 64px !important;
-        }
-        .el-menu {
-            .link-a {
-                display: block !important;
-                float: none !important;
-            }
-            .menu-item {
-                height: 40px;
-                line-height: 40px;
-                &.is-active,
-                &:hover {
-                    color: $default-theme;
-                    background: #ecf5ff;
-                    * {
-                        color: $default-theme;
+            .sub-menu-item {
+                // margin: 4px 0;
+                .el-submenu__title {
+                    height: $menu-item-height !important;
+                    line-height: $menu-item-height !important;
+                    border-bottom: 0 !important;
+                    @if $theme == 'dark' {
+                        color: $dark-color !important;
+                        & > * {
+                            color: $dark-color !important;
+                        }
+                        background: $dark-sub-menu-bg;
+                    }
+                    @if $theme == 'light' {
+                        color: $light-active-hover-color !important;
+                        & > * {
+                            color: $light-active-hover-color !important;
+                        }
                     }
                 }
             }
         }
     }
-    & > .link-a {
-        @include link-a();
-    }
-    & > .sub-menu-item {
-        @include sub-menu-item();
-    }
-    &.dark {
-      .menu-item{
-        color: #fff;
-        *{
-          color: #fff;
-        }
-      }
-      .sub-menu-item{
-        .el-submenu__title {
-          background: transparent;
-          color:#fff;
-          *{
-            color: #fff;
-          }
-        }
-        &:hover,&.is-active{
-          .el-submenu__title {
-            background: transparent;
-            color:$default-theme;
-            *{
-              color:$default-theme;
-            }
-          }
-        }
-        .el-menu{
-          background: #001529;
-          .menu-item{
-            background: #001529;
-          }
-        }
-      }
-    }
-    &.light {
+    // 菜单子项选中样式
+    @mixin menu-item-active-hover($theme) {
         .link-a {
-            &.router-link-active {}
+            &.router-link-active,
+            &:hover {
+                @if $theme == 'light' {
+                    color: $light-active-hover-color !important;
+                    background: #fff;
+                }
+                @if $theme == 'dark' {
+                    color: $dark-active-hover-bg !important;
+                    background: transparent !important;
+                }
+
+            }
         }
         .menu-item {
             &.is-active,
-            &:hover {}
+            &:hover {
+                @include border(bottom,2px,$light-active-hover-color);
+                @if $theme == 'light' {
+                    color: $light-active-hover-color !important;
+                    background: #fff;
+
+                    & > * {
+                        color: $light-active-hover-color !important;
+                    }
+                }
+
+                @if $theme == 'dark' {
+                    color: $dark-active-hover-bg !important;
+                    background: transparent !important;
+                    & > * {
+                        color: $dark-active-hover-bg !important;
+                    }
+                }
+
+            }
         }
+
         .sub-menu-item {
-            .el-submenu__title {}
+            &.is-active {
+                & > .el-submenu__title {
+                    color: $light-active-hover-color !important;
+                    & > * {
+                        color: $light-active-hover-color !important;
+                    }
+                }
+            }
+            .el-submenu__title:hover {
+                @if $theme == 'light' {
+                    color: $light-active-hover-color !important;
+                    background: #fff;
+                    & > * {
+                        color: $light-active-hover-color !important;
+                    }
+                }
+                @if $theme == 'dark' {
+                    color: $dark-active-hover-bg !important;
+                    background: transparent !important;
+                    & > * {
+                        color: $dark-active-hover-bg !important;
+                    }
+                }
+
+            }
         }
+        // 悬浮菜单
+        .el-menu--popup {
+            .link-a {
+                &.router-link-active,
+                &:hover {
+
+                    @if $theme == 'light' {
+                        color: $light-active-hover-color !important;
+                        background: $light-active-hover-bg !important;
+                    }
+                    @if $theme == 'dark' {
+                        color: #fff !important;
+                        background: $dark-active-hover-bg !important;
+                        & > * {
+                            color: #fff !important;
+                        }
+                    }
+                }
+            }
+            .menu-item {
+                border: 0 !important;
+                &.is-active,
+                &:hover {
+                    @if $theme == 'light' {
+                        color: $light-active-hover-color !important;
+                        background: $light-active-hover-bg !important;
+                    }
+                    @if $theme == 'dark' {
+                        color: #fff !important;
+                        background: $dark-active-hover-bg !important;
+                        & > * {
+                            color: #fff !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.light {
+        @include menu-item(light);
+        @include menu-item-active-hover(light);
+    }
+    &.dark {
+        @include menu-item(dark);
+        @include menu-item-active-hover(dark);
     }
 }
 </style>
