@@ -72,8 +72,7 @@ export const authRoutes = [{
       title: '列表1',
       icon: 'el-icon-location'
     },
-    children: [
-      {
+    children: [{
         path: '/list/list1/list11',
         component: () => import('@/views/Home'),
         name: 'ListList1List11',
@@ -147,6 +146,13 @@ export const authRoutes = [{
     name: 'LinksExternalLinks',
     meta: {
       title: '外链',
+      icon: 'el-icon-location'
+    }
+  }, {
+    path: location.origin + '/largeScreen',
+    name: 'LinksLargeScreen',
+    meta: {
+      title: '大屏',
       icon: 'el-icon-location'
     }
   }]

@@ -46,8 +46,7 @@ const authMenuList = [{
       name: 'ListList1',
       text: '列表页1',
       auth: ['1', '2'],
-      children: [
-        {
+      children: [{
           name: 'ListList1List11',
           text: '列表页1-1',
           auth: ['1', '2'],
@@ -90,9 +89,22 @@ const authMenuList = [{
     }
   ]
 }, {
-  name: 'LinksExternalLinks',
-  text: '外链',
-  auth: ['1']
+  name: 'Links',
+  text: '链接',
+  auth: ['1'],
+  children: [{
+      name: 'LinksExternalLinks',
+      text: '外链',
+      auth: ['1', '2'],
+      children: []
+    },
+    {
+      name: 'LinksLargeScreen',
+      text: '大屏',
+      auth: ['1', '2'],
+      children: []
+    }
+  ]
 }]
 
 

@@ -7,14 +7,32 @@ const {
 } = require('./mock/config');
 // vue.config.js
 module.exports = {
+  // multi-page
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      template: 'public/index.html',
+      title: '',
+      filename: 'index.html'
+    },
+    large: {
+      entry: 'src/pages/LargeScreen/main.js',
+      template: 'public/index.html',
+      title: '大屏展示',
+      filename: 'largeScreen/index.html'
+    }
+  },
   // chainWebpack: config => {
   //   config
   //     .entry('index')
   //     .add('babel-polyfill')
   // },
   publicPath: './',
+  // node_modules 包使用 babel/polyfill 兼容IE
   transpileDependencies: [
-
+    'normalize-url',
+    'prepend-http',
+    'sort-keys'
   ],
   lintOnSave: process.env.NODE_ENV !== 'production',
   devServer: {
