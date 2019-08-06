@@ -1,12 +1,12 @@
 <template>
 <scroll-view>
   <el-container class="app-wrapper">
-    <Sidebar v-if="layoutMode==='sidemenu'" />
+    <Sidebar v-if="layoutMode!=='topmenu'" />
     <el-container class="app-container" direction="vertical">
       <Navbar />
       <AppMain />
     </el-container>
-    <Setting />
+    <Setting v-if="settingShow" />
   </el-container>
 </scroll-view>
 </template>
@@ -28,7 +28,10 @@ export default {
     Setting
   },
   computed: {
-    ...mapGetters(['layoutMode'])
+    ...mapGetters(['layoutMode']),
+    settingShow(){
+      return process.env.NODE_ENV !== 'production'
+    }
   }
 }
 </script>

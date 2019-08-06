@@ -61,6 +61,14 @@
               </div>
             </div>
           </el-tooltip>
+          <el-tooltip effect="dark" content="头部合并" placement="top" @click.native="setLayoutMode('mergeHeader')">
+            <div class="item">
+              <img src="./icons/light-theme0.svg" alt="mergeHeader">
+              <div class="select-icon" v-if="layoutMode === 'mergeHeader'">
+                <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-tooltip>
         </div>
         <div class="switch-item">
           <div class="label">
@@ -72,16 +80,16 @@
           </el-select>
         </div>
         <div class="switch-item">
-          <div class="label">
+          <div class="label" :style="{ textDecoration: layoutMode === 'mergeHeader' ? 'line-through' : 'unset' }">
             固定 Header
           </div>
-          <ElSwitch :value="fixedHeader" @change="setFixedHeader" />
+          <ElSwitch :value="fixedHeader" :disabled="layoutMode === 'mergeHeader'" @change="setFixedHeader" />
         </div>
         <div class="switch-item">
-          <div class="label" :style="{ textDecoration: layoutMode === 'topmenu' ? 'line-through' : 'unset' }">
+          <div class="label" :style="{ textDecoration: (layoutMode === 'topmenu'||layoutMode === 'mergeHeader') ? 'line-through' : 'unset' }">
             固定侧边菜单
           </div>
-          <ElSwitch :value="fixedSiderbar" :disabled="layoutMode === 'topmenu'" @change="setFixedSiderbar" />
+          <ElSwitch :value="fixedSiderbar" :disabled="layoutMode === 'topmenu'||layoutMode === 'mergeHeader'" @change="setFixedSiderbar" />
         </div>
         <el-divider></el-divider>
         <div class="title">
@@ -93,9 +101,12 @@
           </div>
           <ElSwitch :value="tagViewShow" @change="setTagViewsShow" />
         </div>
-        <div class="switch-item">
+        <el-divider></el-divider>
+        <div class="setting-item">
+          <el-button type="primary" ref="copySetting" icon="el-icon-document-copy" @click="copySettings">拷贝设置</el-button>
           <div class="label">
-            其他开发中
+            配置栏只在开发环境用于预览，生产环境不会展现，请手动修改配置文件
+            /src/settings/index.js
           </div>
         </div>
         <el-divider></el-divider>
@@ -112,6 +123,7 @@ import {
 import {
   colorList
 } from '@/settings'
+import Clipboard from 'clipboard'
 import ThemeColor from '@/utils/changeTheme'
 import Popup from './components/Popup.vue'
 export default {
@@ -126,6 +138,21 @@ export default {
   computed: {
     ...mapGetters(['layoutMode', 'theme', 'tagViewShow', 'themeColor', 'fixedHeader', 'contentWidth', 'fixedSiderbar'])
   },
+  mounted() {
+    this.clipboardEl = this.$refs.copySetting.$el
+    this.clipboard = new Clipboard(this.clipboardEl)
+    this.clipboardEl.setAttribute('data-clipboard-text', '')
+    this.clipboard.on('success', (e) => {
+      e.clearSelection();
+      this.$message.success('复制成功')
+    })
+    this.clipboard.on('error', (e) => {
+      this.$message.error('复制失败');
+    })
+  },
+  beforeDestroy() {
+    this.clipboard.destroy()
+  },
   methods: {
     ...mapActions({
       setLayoutMode: 'app/setLayoutMode',
@@ -138,8 +165,19 @@ export default {
     }),
     async handleThemeColor(color) {
       await ThemeColor.changeTheme(color)
-      console.log('33333333333')
       this.setThemeColor(color)
+    },
+    copySettings(e) {
+      const settings = `{
+        layoutMode: '${this.layoutMode}',
+        theme: '${this.theme}',
+        themeColor: '${this.themeColor}',
+        tagViewShow: ${this.tagViewShow},
+        contentWidth: '${this.contentWidth}',
+        fixedHeader: ${this.fixedHeader},
+        fixedSiderbar: ${this.fixedSiderbar}
+      }`
+      this.clipboardEl.setAttribute('data-clipboard-text', settings)
     }
   }
 }
@@ -207,6 +245,12 @@ export default {
         height: 26px;
         padding: 24px 0;
         cursor: pointer;
+    }
+    .setting-item {
+        @include flex-box(column,center,center);
+        .label {
+            margin-top: 20px;
+        }
     }
 }
 </style>

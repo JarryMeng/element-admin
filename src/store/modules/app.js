@@ -11,17 +11,21 @@ import {
   SET_FIXED_SIDERBAR,
   SET_CONTENT_WIDTH
 } from '../mutation-types'
-// import {
-//   appSetting
-// } from '@/settings'
-// console.log(appSetting)
-const state = {
+import {
+  appSetting
+} from '@/settings'
+
+// 生产环境 固定设置
+const state = process.env.NODE_ENV === 'production' ? {
+  device: 'desktop',
+  sidebar: true,
+  ...appSetting
+} : {
   device: 'desktop',
   sidebar: true,
   layoutMode: storage.get('layoutMode') || 'sidemenu', //  sidemenu topmenu
   theme: storage.get('theme') || 'dark', // light  dark
   themeColor: storage.get('themeColor') || '#409EFF',
-  fixedHeader: !!storage.get('fixedHeader'),
   tagViewShow: !!storage.get('tagViewShow'),
   get contentWidth() { // fixed  fluid
     if (state.layoutMode === 'sidemenu') {
@@ -33,9 +37,22 @@ const state = {
   set contentWidth(widthType) {
     storage.set('contentWidth', widthType)
   },
+  get fixedHeader() {
+    if (state.layoutMode === 'mergeHeader') {
+      return true
+    } else {
+      return !!storage.get('fixedHeader')
+    }
+  },
+  set fixedHeader(val) {
+    storage.set('fixedHeader', Number(val))
+  },
+  // fixedHeader: !!storage.get('fixedHeader'),
   get fixedSiderbar() {
     if (state.layoutMode === 'topmenu') {
       return false
+    } else if (state.layoutMode === 'mergeHeader') {
+      return true
     } else {
       return !!storage.get('fixedSiderbar')
     }
@@ -65,7 +82,7 @@ const mutations = {
     state.themeColor = themeColor
   },
   [SET_FIXED_HEADER](state, type) {
-    storage.set('fixedHeader', Number(type))
+
     state.fixedHeader = type
   },
   [SET_CONTENT_WIDTH](state, widthType) {

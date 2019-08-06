@@ -5,6 +5,9 @@ import app from './modules/app'
 import user from './modules/user'
 import permission from './modules/permission'
 import tagViews from './modules/tagViews'
+// Vuex 自带日志插件
+import createLogger from 'vuex/dist/logger'
+
 Vue.use(Vuex)
 
 export default new Store({
@@ -15,5 +18,6 @@ export default new Store({
     permission,
     tagViews
   },
-  getters
+  getters,
+  plugins: [createLogger()]
 })

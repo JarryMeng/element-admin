@@ -13,10 +13,12 @@ import './components/ScrollView'
 import './permission'
 import ThemeColor from '@/utils/changeTheme'
 import './directive'
+
 Vue.use(Element, {
   size: 'small',
   zIndex: 3000
 })
+
 
 Vue.config.productionTip = false
 

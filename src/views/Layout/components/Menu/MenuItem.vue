@@ -56,13 +56,13 @@ export default {
 
 <style lang="scss">
 // 深色
-$dark-bg: #001529;
+$dark-bg: $dark;
 $dark-active-hover-bg: $default-theme;
 $dark-color: rgba(255,255,255,0.65);
 $dark-active-hover-color: #fff;
 $dark-sub-menu-bg: #000c17;
 // 浅色
-$light-bg: #fff;
+$light-bg: $light;
 $light-active-hover-bg: #ecf5ff;
 $light-color: #303133;
 $light-active-hover-color: $default-theme;

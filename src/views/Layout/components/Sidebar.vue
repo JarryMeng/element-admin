@@ -1,6 +1,6 @@
 <template lang="html">
   <el-aside class="app-sidebar" :style="styles" :class="[theme,{'fixed-siderbar':fixedSiderbar}]" width="auto">
-    <Logo />
+    <Logo v-if="layoutMode !== 'mergeHeader'" />
     <scroll-view class="sidebar-menu-wrap">
       <Menu mode="vertical" />
     </scroll-view>
@@ -15,6 +15,7 @@ import Logo from './Logo.vue'
 import Menu from './Menu'
 import {
   sidebarWidth,
+  navbarHeight,
   sidebarCollapseWidth
 } from '@/styles/base.scss'
 export default {
@@ -23,13 +24,15 @@ export default {
     Menu
   },
   computed: {
-    ...mapGetters(['theme', 'sidebar', 'fixedSiderbar']),
+    ...mapGetters(['layoutMode', 'theme', 'sidebar', 'fixedSiderbar']),
     styles() {
       // flex: 0 0 ${this.sidebar?'256':'80'}px;
       return `
               max-width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth };
               min-width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth};
-              width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth};`
+              width: ${this.sidebar? sidebarWidth : sidebarCollapseWidth};
+              margin-top: ${this.layoutMode === 'mergeHeader'? navbarHeight : '0'};
+              `
     }
   }
 }
@@ -37,16 +40,23 @@ export default {
 <style lang="scss">
 .app-sidebar {
     .sidebar-menu-wrap {
-        // overflow: visible !important;
-        // height: auto !important;
-        .scroll-inner-vertical-view {
-            // overflow: visible !important;
+        overflow: visible !important;
+        height: auto !important;
+        .el-scrollbar__wrap {
+            overflow: visible !important;
+        }
+    }
+    &.fixed-siderbar {
+        .sidebar-menu-wrap {
+            overflow: hidden !important;
+            .el-scrollbar__wrap {
+                overflow-x: hidden !important;
+            }
         }
     }
 }
 </style>
 <style lang="scss" scoped>
-
 .app-sidebar {
     width: auto !important;
     position: relative;
@@ -54,17 +64,19 @@ export default {
     // min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: all 0.18s linear;
+    transition-property: min-width,max-width,background;
+    transition-duration: 0.18s;
+    transition-timing-function: linear;
     overflow: visible !important;
     .app-logo {
         padding-left: 20px;
     }
     &.light {
-        background-color: #fff;
+        background-color: $light;
         box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
     }
     &.dark {
-        background: #001529;
+        background: $dark;
         box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     }
     &.fixed-siderbar {

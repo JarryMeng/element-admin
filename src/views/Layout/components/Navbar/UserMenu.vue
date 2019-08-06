@@ -44,7 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 .user-menu {
-
+    display: inline-block;
     .avatar-container {
         height: 100%;
         padding: 0 10px;

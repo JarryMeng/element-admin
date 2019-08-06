@@ -40,18 +40,16 @@ export default {
 
 <style lang="scss" scoped>
 
-// tagViews高度
-$tagViewsH: 40px;
 .app-main {
     @include flex-box(column);
     min-height: calc(100% - #{$navbar-height});
     &.has-tag-view {
-        min-height: calc(100% - #{$navbar-height + $tagViewsH});
+        min-height: calc(100% - #{$navbar-height + $tagViews-height});
         &.fixed-header {
-            margin-top: $navbar-height + $tagViewsH;
+            margin-top: $navbar-height + $tagViews-height;
         }
         &.fixed-sider {
-            margin-top: $navbar-height + $tagViewsH;
+            margin-top: $navbar-height + $tagViews-height;
         }
     }
     // background:#757575;

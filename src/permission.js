@@ -53,7 +53,6 @@ router.beforeEach(async(to, from, next) => {
       if (!store.getters.authRoutes.length) {
         // 获取用户权限菜单
         await store.dispatch('permission/getMenuList')
-        console.log('未获取用户权限菜单', from, to)
         const {
           query
         } = from
@@ -84,7 +83,6 @@ router.beforeEach(async(to, from, next) => {
         }
 
       } else {
-        console.log('已获取用户权限菜单', from, to)
         if (hasRoutePath(store.getters.routes, to.path)) {
           next()
         } else {

@@ -2,15 +2,21 @@ import {
   Message
 } from 'element-ui'
 import stroe from '@/store'
-// import {
-//   version
-// } from 'element-ui/package.json'
+import {
+  version
+} from 'element-ui/package.json'
 const ORIGINAL_THEME = '#409EFF' // default color
 export default class ThemeColor {
   static chalk = ''
   static async changeTheme(newtheme, noLoading = true) {
+    if (process.env.NODE_ENV !== 'production') {
+      this.changeThemeStyle(newtheme, noLoading)
+    } else {
+      this.changeThemeLink(newtheme, noLoading)
+    }
+  }
+  static async changeThemeLink(newtheme, noLoading) {
     const themeColor = stroe.getters.themeColor
-    console.log(themeColor)
     // 生成过样式  读取 store
     const oldVal = this.chalk ? themeColor : ORIGINAL_THEME
     if (typeof newtheme !== 'string') return
@@ -30,7 +36,6 @@ export default class ThemeColor {
     const originalCluster = this.getThemeCluster(oldVal.replace('#', ''))
     // 蓝色的颜色集
     const normalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
-    console.log('1111111111')
     // css分离 link引入 更换逻辑
     if (!this.chalk) {
 
@@ -77,6 +82,69 @@ export default class ThemeColor {
         $message.close()
       }, 500)
     }
+  }
+  static async changeThemeStyle(newtheme, noLoading) {
+    const themeColor = stroe.getters.themeColor
+    // 生成过样式  读取 store
+    const oldVal = this.chalk ? themeColor : ORIGINAL_THEME
+    if (typeof newtheme !== 'string') return
+    let $message
+    if (noLoading) {
+      $message = Message({
+        message: '正在编译主题...',
+        customClass: 'theme-message',
+        type: 'success',
+        duration: 0,
+        iconClass: 'el-icon-loading'
+      })
+    }
+
+    const newestCluster = this.getThemeCluster(newtheme.replace('#', ''))
+    const originalCluster = this.getThemeCluster(oldVal.replace('#', ''))
+    // 根据最新的样式文本生成style标签 放到head
+    const getHandler = () => {
+      return () => {
+        const originalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
+        const newStyle = this.updateStyle(this.chalk, originalCluster, newestCluster)
+
+        let styleTag = document.getElementById('chalk-style')
+        if (!styleTag) {
+          styleTag = document.createElement('style')
+          styleTag.setAttribute('id', 'chalk-style')
+          document.head.appendChild(styleTag)
+        }
+        styleTag.innerText = newStyle
+      }
+    }
+
+    if (!this.chalk) {
+      //请求线上资源
+      let url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
+
+      this.chalk = await this.getCSSString(url)
+    }
+    const chalkHandler = getHandler()
+
+    chalkHandler()
+    // style标签副本 匹配所有样式 替换颜色
+    const styles = [].slice.call(document.querySelectorAll('style'))
+      .filter(style => {
+        const text = style.innerText
+        return new RegExp(oldVal, 'i').test(text) && !/Chalk Variables/.test(text)
+      })
+    styles.forEach(style => {
+      const {
+        innerText
+      } = style
+      if (typeof innerText !== 'string') return
+      style.innerText = this.updateStyle(innerText, originalCluster, newestCluster)
+    })
+    setTimeout(() => {
+      if ($message) {
+        $message.close()
+      }
+    }, 500)
+
   }
   // 样式文本 正则匹配替换 更新颜色
   static updateStyle(style, oldCluster, newCluster) {
