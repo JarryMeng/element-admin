@@ -6,9 +6,10 @@
 
 <script>
 import echarts from 'echarts'
+let chart
 export default {
   mounted() {
-    const chart = echarts.init(document.getElementById('bar1'))
+    chart = echarts.init(document.getElementById('bar1'))
     var option = {
       backgroundColor: '#00265f',
       tooltip: {
@@ -144,9 +145,17 @@ export default {
       }]
     };
     chart.setOption(option)
+    this.resize = ()=>{
+      chart.resize()
+    }
+    this.$resize.$on('resize', this.resize)
   },
   beforeDestroy(){
-    console.log('chart')
+    console.log('卸载chart')
+    this.$resize.$off('resize',this.resize)
+    this.resize = null;
+    chart.dispose()
+    chart = null
   }
 }
 </script>

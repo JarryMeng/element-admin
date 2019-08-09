@@ -20,11 +20,13 @@ import {
   mapGetters
 } from 'vuex'
 import RowWidth from './RowWidth'
+import resize from './mixins/resize'
 export default {
   name: 'AppMain',
   components: {
     RowWidth
   },
+  mixins: [resize],
   computed: {
     ...mapGetters(['sidebar', 'theme', 'tagViewShow', 'layoutMode', 'fixedHeader', 'fixedSiderbar']),
 
@@ -43,6 +45,7 @@ export default {
 .app-main {
     @include flex-box(column);
     min-height: calc(100% - #{$navbar-height});
+    padding: 0;
     &.has-tag-view {
         min-height: calc(100% - #{$navbar-height + $tagViews-height});
         &.fixed-header {
@@ -63,6 +66,7 @@ export default {
         @include flex-box(column);
         .app-main-content {
             flex: 1;
+            padding: 20px;
             @include flex-box(column);
             & > * {
                 flex: 1;

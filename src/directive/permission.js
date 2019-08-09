@@ -1,3 +1,4 @@
+// 权限内容控制指令
 import Vue from 'vue'
 import store from '../store'
 var Permission = {}

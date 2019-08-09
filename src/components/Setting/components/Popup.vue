@@ -5,8 +5,7 @@
     </transition>
     <div class="popup-inner" :class="{'popup-open':show}">
       <div class="toogle-btn" @click="toogle">
-        <el-button class="btn" v-if="show" type="primary" icon="el-icon-close"></el-button>
-        <el-button class="btn" v-else type="primary" icon="el-icon-setting"></el-button>
+        <el-button class="btn" type="primary" :icon="show?'el-icon-close':'el-icon-setting'"></el-button>
       </div>
       <div class="popup-content">
         <div class="close" @click="show=false">
@@ -90,6 +89,8 @@ export default {
             width: 100%;
             height: 100%;
             font-size: 18px;
+            padding: 0 !important;
+            @include flex-box(row,center,center);
             &:focus {
                 background: #409EFF !important;
                 border-color: #409EFF !important;

@@ -46,7 +46,8 @@ export default {
     transition: background 0.5s;
     &.sidemenu {
         &.dark {
-            background: $dark;
+            // background: $dark;
+            background: #002140;
             color: #fff;
         }
         &.light {
@@ -57,23 +58,26 @@ export default {
     }
     &.mergeHeader,
     &.topmenu {
-        width: $sidebar-width;
+        min-width: $sidebar-width;
         box-shadow: none;
         &.dark {
             background: $dark;
+
             color: #fff;
         }
         &.light {
             background: $light;
             color: $default-theme;
         }
+
+        .title {
+            width: auto !important;
+            margin-right: 12px;
+        }
     }
     &.mergeHeader {
         width: auto !important;
-        .title {
-            width: auto !important;
-            margin-right:12px;
-        }
+        min-width: auto !important;
     }
     .img {
         height: 40px;

@@ -62,7 +62,7 @@ module.exports = {
   productionSourceMap: false,
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
-    extract: true,
+    extract: process.env.NODE_ENV === 'production' ? true : false,
     // 开启 CSS source maps?
     sourceMap: false,
     // 启用 CSS modules for all css / pre-processor files.

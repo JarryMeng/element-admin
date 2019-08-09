@@ -19,6 +19,7 @@ export default class ThemeColor {
     const themeColor = stroe.getters.themeColor
     // 生成过样式  读取 store
     const oldVal = this.chalk ? themeColor : ORIGINAL_THEME
+    if(newtheme === ORIGINAL_THEME && themeColor === ORIGINAL_THEME) return
     if (typeof newtheme !== 'string') return
     let $message
     if (noLoading) {
@@ -87,6 +88,7 @@ export default class ThemeColor {
     const themeColor = stroe.getters.themeColor
     // 生成过样式  读取 store
     const oldVal = this.chalk ? themeColor : ORIGINAL_THEME
+    if(newtheme === ORIGINAL_THEME && themeColor === ORIGINAL_THEME) return
     if (typeof newtheme !== 'string') return
     let $message
     if (noLoading) {

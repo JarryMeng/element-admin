@@ -74,7 +74,7 @@ export const authRoutes = [{
     },
     children: [{
         path: '/list/list1/list11',
-        component: () => import('@/views/Home'),
+        component: () => import('@/views/List/List1'),
         name: 'ListList1List11',
         meta: {
           title: '列表1-1',

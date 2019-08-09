@@ -28,7 +28,7 @@ const state = process.env.NODE_ENV === 'production' ? {
   themeColor: storage.get('themeColor') || '#409EFF',
   tagViewShow: !!storage.get('tagViewShow'),
   get contentWidth() { // fixed  fluid
-    if (state.layoutMode === 'sidemenu') {
+    if (state.layoutMode === 'sidemenu' || state.layoutMode === 'mergeHeader') {
       return 'fluid'
     } else {
       return (storage.get('contentWidth') || 'fixed')

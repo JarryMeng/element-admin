@@ -15,7 +15,7 @@ import ThemeColor from '@/utils/changeTheme'
 import './directive'
 
 Vue.use(Element, {
-  size: 'small',
+  // size: 'small',
   zIndex: 3000
 })
 

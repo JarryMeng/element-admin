@@ -40,18 +40,16 @@ export default {
     line-height: 80px;
     overflow: hidden;
     transition: background-color 0.5s;
+    cursor: pointer;
     &.dark {
         svg {
             fill: #fff;
         }
 
     }
-    &.light {
-        &:hover {
-            background: #f1f1f1;
-        }
+    &:hover {
+        background: rgba(0,0,0,0.1);
     }
-
     .hamburger-icon {
         &.is-active {
             transform: rotate(180deg);

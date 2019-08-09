@@ -6,9 +6,10 @@
 
 <script>
 import echarts from 'echarts'
+let chart
 export default {
   mounted(){
-    const chart = echarts.init(document.getElementById('line1'))
+    chart = echarts.init(document.getElementById('line1'))
     var xData = function() {
       var data = [];
       for (var i = 2011; i < 2017; i++) {
@@ -175,6 +176,16 @@ export default {
       series: series,
     }
     chart.setOption(option)
+    this.resize = ()=>{
+      chart.resize()
+    }
+    this.$resize.$on('resize', this.resize)
+  },
+  beforeDestroy(){
+    console.log('卸载chart')
+    this.$resize.$off('resize',this.resize)
+    chart.dispose()
+    chart = null
   }
 }
 </script>
