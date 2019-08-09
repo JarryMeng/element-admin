@@ -1,4 +1,6 @@
+// 系统标题
 export const title = 'Element-Admin'
+// 主题色彩列表
 export const colorList = [{
     key: '薄暮',
     color: '#F5222D'
@@ -32,7 +34,7 @@ export const colorList = [{
     color: '#722ED1'
   }
 ]
-
+// 系统设置 开发模式下 拷贝设置到此 构建生产应用此配置
 export const appSetting = {
   layoutMode: 'sidemenu', //  sidemenu topmenu
   theme: 'light', // light  dark
