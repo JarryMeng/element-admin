@@ -10,7 +10,7 @@
     "serve": "concurrently \"npm run mock\" \"npm run dev\""
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
     "clipboard": "^2.0.4",
     "concurrently": "^4.1.0",
